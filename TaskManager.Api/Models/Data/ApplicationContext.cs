@@ -14,7 +14,7 @@ namespace TaskManager.Api.Models.Data
             Database.EnsureCreated();
             if(Users.Any(u => u.Status == UserStatus.Admin) == false) 
             {
-                var admin = new User("Вадим", "Афанасьев", "trim-agency@yandex.ru", "qwerty123", UserStatus.Admin, "+79521760520");
+                var admin = new User("Vadim", "Afanasev", "trim-agency@yandex.ru", "qwerty123", UserStatus.Admin);
                 Users.Add(admin);
                 SaveChanges();
             }
