@@ -1242,6 +1242,16 @@
             "rid": "win"
           }
         }
+      },
+      "TaskManager.Common.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/TaskManager.Common.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TaskManager.Common.Models.dll": {}
+        }
       }
     }
   },
@@ -3712,13 +3722,19 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "TaskManager.Common.Models/1.0.0": {
+      "type": "project",
+      "path": "../TaskManager.Common.Models/TaskManager.Common.Models.csproj",
+      "msbuildProject": "../TaskManager.Common.Models/TaskManager.Common.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.8",
-      "Swashbuckle.AspNetCore >= 6.2.3"
+      "Swashbuckle.AspNetCore >= 6.2.3",
+      "TaskManager.Common.Models >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3753,7 +3769,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\Программирование\\Обучение\\TaskManager\\TaskManager.Common.Models\\TaskManager.Common.Models.csproj": {
+              "projectPath": "E:\\Программирование\\Обучение\\TaskManager\\TaskManager.Common.Models\\TaskManager.Common.Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
