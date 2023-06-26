@@ -1,0 +1,12 @@
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\bin\Debug\net6.0\TaskManager.Common.Models.deps.json
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\bin\Debug\net6.0\TaskManager.Common.Models.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\bin\Debug\net6.0\TaskManager.Common.Models.pdb
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\TaskManager.Common.Models.csproj.AssemblyReference.cache
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\TaskManager.Common.Models.GeneratedMSBuildEditorConfig.editorconfig
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\TaskManager.Common.Models.AssemblyInfoInputs.cache
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\TaskManager.Common.Models.AssemblyInfo.cs
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\TaskManager.Common.Models.csproj.CoreCompileInputs.cache
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\TaskManager.Common.Models.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\refint\TaskManager.Common.Models.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\TaskManager.Common.Models.pdb
+E:\Программирование\Обучение\TaskManager\TaskManager.Common.Models\obj\Debug\net6.0\ref\TaskManager.Common.Models.dll

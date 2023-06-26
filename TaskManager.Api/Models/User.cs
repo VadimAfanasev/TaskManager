@@ -20,7 +20,8 @@ namespace TaskManager.Api.Models
         public UserStatus Status { get; set; }
 
         public User() { }
-        public User(string fName, string lName, string email, string password, UserStatus status = UserStatus.User, string phone = null, byte[] photo = null)
+        public User(string fName, string lName, string email, string password, 
+            UserStatus status = UserStatus.User, string phone = null, byte[] photo = null)
         {
             FirstName = fName;
             LastName = lName;

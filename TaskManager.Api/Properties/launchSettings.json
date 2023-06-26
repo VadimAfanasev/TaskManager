@@ -9,20 +9,20 @@
     }
   },
   "profiles": {
-    "TaskManager.Api": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
+    "IIS Express": {
+      "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5219",
+      "launchUrl": "api/users/test",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
+    "TaskManager.Api": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "api/users/test",
+      "applicationUrl": "http://localhost:5219",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

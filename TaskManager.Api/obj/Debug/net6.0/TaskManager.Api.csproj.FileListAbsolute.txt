@@ -85,3 +85,5 @@ E:\Программирование\Обучение\TaskManager\TaskManager.Api
 E:\Программирование\Обучение\TaskManager\TaskManager.Api\obj\Debug\net6.0\TaskManager.Api.pdb
 E:\Программирование\Обучение\TaskManager\TaskManager.Api\obj\Debug\net6.0\TaskManager.Api.genruntimeconfig.cache
 E:\Программирование\Обучение\TaskManager\TaskManager.Api\obj\Debug\net6.0\ref\TaskManager.Api.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Api\bin\Debug\net6.0\TaskManager.Common.Models.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Api\bin\Debug\net6.0\TaskManager.Common.Models.pdb

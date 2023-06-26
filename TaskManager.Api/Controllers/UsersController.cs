@@ -29,5 +29,10 @@ namespace TaskManager.Api.Controllers
             }
             return BadRequest();
         }
+        [HttpGet("test")]
+        public IActionResult TestApi()
+        {
+            return Ok("Всем привет!");
+        }
     }
 }
