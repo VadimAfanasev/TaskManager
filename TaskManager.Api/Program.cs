@@ -24,10 +24,22 @@ public class Startup
     {
         string connection = Configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(connection));
+        services.AddControllers();
     }
 
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        app.UseRouting();
+        app.UseAuthorization();
+        app.UseEndpoints(endpoints => 
+        { 
+            endpoints.MapControllers(); 
+        });
     }
 }
