@@ -32,6 +32,19 @@ namespace TaskManager.Api.Models
             Photo = photo;
             RegistrationDate = DateTime.Now;
         }
+
+        public User(UserModel model)
+        {
+            FirstName = model.FirstName;
+            LastName = model.LastName;
+            Email = model.Email;
+            Password = model.Password;
+            Status = model.Status;
+            Phone = model.Phone;
+            Photo = model.Photo;
+            RegistrationDate = model.RegistrationDate;
+        }
+
         public UserModel ToDto()
         {
             return new UserModel
