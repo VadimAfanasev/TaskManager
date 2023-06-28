@@ -79,7 +79,7 @@ namespace TaskManager.Api.Controllers
         public async Task<IEnumerable<UserModel>> GetUsers()
         {
             return await _db.Users.Select(x => x.ToDto()).ToListAsync();
-        }
+        } 
 
         [HttpPost("create/all")]
         public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModel)
