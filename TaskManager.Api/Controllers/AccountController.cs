@@ -7,6 +7,8 @@ using TaskManager.Api.Models.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using TaskManager.Api.Models;
+using TaskManager.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManager.Api.Controllers
 {
@@ -21,6 +23,8 @@ namespace TaskManager.Api.Controllers
             _db = db;
             _userService = new UserService(db);
         }
+
+        [Authorize]
         [HttpGet("info")]
         public IActionResult GetCurrentUserInfo() 
         {
@@ -58,6 +62,31 @@ namespace TaskManager.Api.Controllers
                 username = identity.Name
             };
             return Ok(response);
+        }
+
+        [Authorize]
+        [HttpPatch("update")]
+        public IActionResult UpdateUser(int id, [FromBody] UserModel userModel)
+        {
+            if (userModel != null)
+            {
+                string userName = HttpContext.User.Identity.Name;
+                User userForUpdate = _db.Users.FirstOrDefault(x => x.Email == userName);
+                if (userForUpdate != null)
+                {
+                    userForUpdate.FirstName = userModel.FirstName;
+                    userForUpdate.LastName = userModel.LastName;
+                    userForUpdate.Password = userModel.Password;
+                    userForUpdate.Phone = userModel.Phone;
+                    userForUpdate.Photo = userModel.Photo;
+
+                    _db.Users.Update(userForUpdate);
+                    _db.SaveChanges();
+                    return Ok();
+                }
+                return NotFound();
+            }
+            return BadRequest();
         }
     }
 }

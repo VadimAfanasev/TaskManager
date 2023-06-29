@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Api.Models;
@@ -9,6 +10,7 @@ namespace TaskManager.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
         private readonly ApplicationContext _db;
@@ -18,6 +20,7 @@ namespace TaskManager.Api.Controllers
         }
 
         [HttpGet("test")]
+        [AllowAnonymous]
         public IActionResult TestApi()
         {
             return Ok("Всем привет!");
@@ -79,7 +82,7 @@ namespace TaskManager.Api.Controllers
         public async Task<IEnumerable<UserModel>> GetUsers()
         {
             return await _db.Users.Select(x => x.ToDto()).ToListAsync();
-        } 
+        }
 
         [HttpPost("create/all")]
         public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModel)
