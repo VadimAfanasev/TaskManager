@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TaskManager.Api.Models;
 using TaskManager.Api.Models.Data;
 using TaskManager.Api.Models.Services;
 using TaskManager.Common.Models;
@@ -15,11 +13,11 @@ namespace TaskManager.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ApplicationContext _db;
-        private readonly UserService _userService;
+        private readonly UsersService _usersService;
         public UsersController(ApplicationContext db)
         {
             _db = db;
-            _userService = new UserService(db);
+            _usersService = new UsersService(db);
         }
 
         [HttpGet("test")]
@@ -34,7 +32,7 @@ namespace TaskManager.Api.Controllers
         {
             if (userModel != null)
             {
-                bool result = _userService.Create(userModel);
+                bool result = _usersService.Create(userModel);
                 return result ? Ok() : NotFound();
             }
             return BadRequest();
@@ -45,7 +43,7 @@ namespace TaskManager.Api.Controllers
         {
             if (userModel != null)
             {
-                bool result = _userService.Update(id, userModel);
+                bool result = _usersService.Update(id, userModel);
                 return result ? Ok() : NotFound();
             }
             return BadRequest();
@@ -54,7 +52,7 @@ namespace TaskManager.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
-            bool result = _userService.Delete(id);
+            bool result = _usersService.Delete(id);
             return result ? Ok() : NotFound();
         }
 
@@ -69,7 +67,7 @@ namespace TaskManager.Api.Controllers
         {
             if (userModel != null && userModel.Count > 0) 
             {
-                bool result = _userService.CreateMultipleUsers(userModel);
+                bool result = _usersService.CreateMultipleUsers(userModel);
                 return result ? Ok() : NotFound();
             }
             return BadRequest();

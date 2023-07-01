@@ -1,4 +1,6 @@
-﻿namespace TaskManager.Api.Models
+﻿using TaskManager.Common.Models;
+
+namespace TaskManager.Api.Models
 {
     public class CommonObject
     {
@@ -9,6 +11,13 @@
         public CommonObject()
         {
             CreationDate = DateTime.Now;
+        }
+        public CommonObject(CommonModel model)
+        {
+            Name = model.Name;
+            Description = model.Description;
+            CreationDate = model.CreationDate;
+            Photo = model.Photo;
         }
     }
 }

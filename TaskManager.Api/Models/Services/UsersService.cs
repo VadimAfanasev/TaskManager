@@ -1,17 +1,15 @@
 ﻿using System.Security.Claims;
-using System;
 using System.Text;
-using TaskManager.Api.Models.Data;
 using TaskManager.Api.Models.Abstractions;
+using TaskManager.Api.Models.Data;
 using TaskManager.Common.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace TaskManager.Api.Models.Services
 {
-    public class UserService : ICommonService<UserModel>
+    public class UsersService : AbstractionService, ICommonService<UserModel>
     {
         private readonly ApplicationContext _db;
-        public UserService(ApplicationContext db)
+        public UsersService(ApplicationContext db)
         {
             _db = db;
         }
@@ -32,11 +30,19 @@ namespace TaskManager.Api.Models.Services
             }
             return new Tuple<string, string>(userName, userPass);
         }
+
         public User GetUser(string login, string password)
         {
             var user = _db.Users.FirstOrDefault(x => x.Email == login &&  x.Password == password);
             return user;
         }
+
+        public User GetUser(string login)
+        {
+            var user = _db.Users.FirstOrDefault(x => x.Email == login);
+            return user;
+        }
+
         public ClaimsIdentity GetIdentity(string username, string password)
         {
             User currentUser = GetUser(username, password);
@@ -114,6 +120,7 @@ namespace TaskManager.Api.Models.Services
             }
             return false;
         }
+
         public bool CreateMultipleUsers(List<UserModel> userModel)
         {
             return DoAction(delegate()
@@ -123,17 +130,6 @@ namespace TaskManager.Api.Models.Services
                     _db.SaveChanges();
                 });
         }
-        private bool DoAction(Action action)
-        {
-            try
-            {
-                action.Invoke();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
+        
     }
 }
