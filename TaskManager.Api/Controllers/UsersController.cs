@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Api.Models;
 using TaskManager.Api.Models.Data;
+using TaskManager.Api.Models.Services;
 using TaskManager.Common.Models;
 
 namespace TaskManager.Api.Controllers
@@ -14,9 +15,11 @@ namespace TaskManager.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ApplicationContext _db;
+        private readonly UserService _userService;
         public UsersController(ApplicationContext db)
         {
             _db = db;
+            _userService = new UserService(db);
         }
 
         [HttpGet("test")]
@@ -26,56 +29,33 @@ namespace TaskManager.Api.Controllers
             return Ok("Всем привет!");
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public IActionResult CreateUser([FromBody] UserModel userModel)
         {
             if (userModel != null)
             {
-                User newUser = new User(userModel.FirstName, userModel.LastName, userModel.Email, 
-                    userModel.Password, userModel.Status, userModel.Phone, userModel.Photo);
-                _db.Users.Add(newUser);
-                _db.SaveChanges();
-                return Ok();
+                bool result = _userService.Create(userModel);
+                return result ? Ok() : NotFound();
             }
             return BadRequest();
         }
 
-        [HttpPatch("update/{id}")]
+        [HttpPatch("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserModel userModel)
         {
             if (userModel != null)
             {
-                User userForUpdate = _db.Users.FirstOrDefault(x => x.Id == id);
-                if (userForUpdate != null)
-                {
-                    userForUpdate.FirstName = userModel.FirstName;
-                    userForUpdate.LastName = userModel.LastName;
-                    userForUpdate.Password = userModel.Password;
-                    userForUpdate.Phone = userModel.Phone;
-                    userForUpdate.Photo = userModel.Photo;
-                    userForUpdate.Status = userModel.Status;
-                    userForUpdate.Email = userModel.Email;
-
-                    _db.Users.Update(userForUpdate);
-                    _db.SaveChanges();
-                    return Ok();
-                }
-                return NotFound();
+                bool result = _userService.Update(id, userModel);
+                return result ? Ok() : NotFound();
             }
             return BadRequest();
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
-            User userForUpdate = _db.Users.FirstOrDefault(x => x.Id == id);
-            if (userForUpdate != null)
-            {
-                _db.Users.Remove(userForUpdate);
-                _db.SaveChanges();
-                return Ok();
-            }
-            return NotFound();
+            bool result = _userService.Delete(id);
+            return result ? Ok() : NotFound();
         }
 
         [HttpGet]
@@ -84,15 +64,13 @@ namespace TaskManager.Api.Controllers
             return await _db.Users.Select(x => x.ToDto()).ToListAsync();
         }
 
-        [HttpPost("create/all")]
+        [HttpPost("all")]
         public async Task<IActionResult> CreateMultipleUsers([FromBody] List<UserModel> userModel)
         {
             if (userModel != null && userModel.Count > 0) 
             {
-                var newUsers = userModel.Select(x => new User(x));
-                _db.Users.AddRange(newUsers);
-                await _db.SaveChangesAsync();
-                return Ok();
+                bool result = _userService.CreateMultipleUsers(userModel);
+                return result ? Ok() : NotFound();
             }
             return BadRequest();
         }

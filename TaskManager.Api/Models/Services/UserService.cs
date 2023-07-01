@@ -2,10 +2,13 @@
 using System;
 using System.Text;
 using TaskManager.Api.Models.Data;
+using TaskManager.Api.Models.Abstractions;
+using TaskManager.Common.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TaskManager.Api.Models.Services
 {
-    public class UserService
+    public class UserService : ICommonService<UserModel>
     {
         private readonly ApplicationContext _db;
         public UserService(ApplicationContext db)
@@ -56,6 +59,81 @@ namespace TaskManager.Api.Models.Services
 
             // если пользователя не найдено
             return null;
+        }
+
+        public bool Create(UserModel model)
+        {
+            try
+            {
+                User newUser = new User(model.FirstName, model.LastName, model.Email,
+                    model.Password, model.Status, model.Phone, model.Photo);
+                _db.Users.Add(newUser);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //нужно залоггировать
+                return false;
+            }
+
+        }
+
+        public bool Update(int id, UserModel model)
+        {
+            User userForUpdate = _db.Users.FirstOrDefault(x => x.Id == id);
+            if (userForUpdate != null)
+            {
+                return DoAction(delegate ()
+                {
+                    userForUpdate.FirstName = model.FirstName;
+                    userForUpdate.LastName = model.LastName;
+                    userForUpdate.Password = model.Password;
+                    userForUpdate.Phone = model.Phone;
+                    userForUpdate.Photo = model.Photo;
+                    userForUpdate.Status = model.Status;
+                    userForUpdate.Email = model.Email;
+
+                    _db.Users.Update(userForUpdate);
+                    _db.SaveChanges();
+                });
+            }
+            return false;
+        }
+
+        public bool Delete(int id)
+        {
+            User userForDelete = _db.Users.FirstOrDefault(x => x.Id == id);
+            if (userForDelete != null)
+            {
+                return DoAction(delegate ()
+                {
+                    _db.Users.Remove(userForDelete);
+                    _db.SaveChanges();
+                });
+            }
+            return false;
+        }
+        public bool CreateMultipleUsers(List<UserModel> userModel)
+        {
+            return DoAction(delegate()
+                {
+                    var newUsers = userModel.Select(x => new User(x));
+                    _db.Users.AddRange(newUsers);
+                    _db.SaveChanges();
+                });
+        }
+        private bool DoAction(Action action)
+        {
+            try
+            {
+                action.Invoke();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
