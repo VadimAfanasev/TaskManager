@@ -24,7 +24,7 @@ namespace TaskManager.Api.Controllers
         [AllowAnonymous]
         public IActionResult TestApi()
         {
-            return Ok("Всем привет!");
+            return Ok("Сервер запущен. Время запуска:" + DateTime.Now);
         }
 
         [HttpPost]
