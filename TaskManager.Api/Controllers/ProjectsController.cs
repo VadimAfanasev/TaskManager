@@ -59,6 +59,7 @@ namespace TaskManager.Api.Controllers
                         {
                             admin = new ProjectAdmin(user);
                             _db.ProjectAdmins.Add(admin);
+                            _db.SaveChanges();
                         }
                         projectModel.AdminId = admin.Id;
 
@@ -71,7 +72,7 @@ namespace TaskManager.Api.Controllers
             return BadRequest();           
         }
 
-        [HttpPatch]
+        [HttpPatch("{id}")]
         public IActionResult Update(int id, [FromBody] ProjectModel projectModel)
         {
             if (projectModel != null)
@@ -90,7 +91,7 @@ namespace TaskManager.Api.Controllers
             return BadRequest();          
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
                 bool result = _projectsService.Delete(id);
