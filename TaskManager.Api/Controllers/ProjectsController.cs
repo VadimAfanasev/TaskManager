@@ -24,7 +24,7 @@ namespace TaskManager.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProjectModel>> Get()
+        public async Task<IEnumerable<CommonModel>> Get()
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
             if (user.Status == UserStatus.Admin)

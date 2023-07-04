@@ -39,14 +39,14 @@ namespace TaskManager.Api.Models.Services
         {
             bool result = DoAction(delegate ()
             {
-                Project newProject = _db.Projects.FirstOrDefault(x => x.Id == id);
-                newProject.Name = newProject.Name;
-                newProject.Description = newProject.Description;
-                newProject.Photo = newProject.Photo;
-                newProject.Status = newProject.Status;
-                newProject.AdminId = newProject.AdminId;
+                Project project = _db.Projects.FirstOrDefault(x => x.Id == id);
+                project.Name = model.Name;
+                project.Description = model.Description;
+                project.Photo = model.Photo;
+                project.Status = model.Status;
+                project.AdminId = model.AdminId;
 
-                _db.Projects.Update(newProject);
+                _db.Projects.Update(project);
                 _db.SaveChanges();
             });
             return result;
@@ -54,8 +54,14 @@ namespace TaskManager.Api.Models.Services
 
         public ProjectModel Get(int id)
         {
-            Project project = _db.Projects.FirstOrDefault(x => x.Id == id);
-            return project?.ToDto();
+            Project project = _db.Projects.Include(p => p.AllUsers).FirstOrDefault(x => x.Id == id);
+            // get all users from project
+            var projectModel = project?.ToDto();
+            if (projectModel != null)
+            {
+                projectModel.AllUsersIds = project.AllUsers.Select(x => x.Id).ToList();
+            }
+            return projectModel;
         }
 
         public async Task<IEnumerable<ProjectModel>> GetByUserId(int userId)
@@ -77,9 +83,9 @@ namespace TaskManager.Api.Models.Services
             return result;
         }
 
-        public IQueryable<ProjectModel> GetAll()
+        public IQueryable<CommonModel> GetAll()
         {
-            return _db.Projects.Select(x => x.ToDto());
+            return _db.Projects.Select(x => x.ToDto() as CommonModel);
         }
 
         public void AddUsersToProject(int id, List<int> userIds)
