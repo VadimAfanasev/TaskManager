@@ -55,6 +55,7 @@ public class Startup
                 };
             });
         services.AddControllers();
+        services.AddControllers().AddNewtonsoftJson();
     }
 
 

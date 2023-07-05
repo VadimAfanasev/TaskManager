@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TaskManager.Api.Models.Abstractions;
 using TaskManager.Api.Models.Data;
 using TaskManager.Common.Models;
@@ -48,7 +49,21 @@ namespace TaskManager.Api.Models.Services
 
         public bool Update(int id, DeskModel model)
         {
-            throw new NotImplementedException();
+            bool result = DoAction(delegate ()
+            {
+                Desk desk = _db.Desks.FirstOrDefault(x => x.Id == id);
+                desk.Name = model.Name;
+                desk.Description = model.Description;
+                desk.Photo = model.Photo;
+                desk.AdminId = model.AdminId;
+                desk.IsPrivate = model.IsPrivate;
+                desk.ProjectId = model.ProjectId;
+                desk.Columns = JsonConvert.SerializeObject(model.Columns);
+
+                _db.Desks.Update(desk);
+                _db.SaveChanges();
+            });
+            return result;
         }
     }
 }
