@@ -65,5 +65,18 @@ namespace TaskManager.Api.Models.Services
             });
             return result;
         }
+
+        public IQueryable<CommonModel> GetAll(int userId)
+        {
+            return _db.Desks.Where(d => d.AdminId == userId).Select(x => x.ToDto() as CommonModel);
+        }
+
+        public IQueryable<CommonModel> GetProjectDesks(int projectId, int userId)
+        {
+            return _db.Desks.Where(x => (x.ProjectId == projectId && (x.AdminId == userId || x.IsPrivate == false)))
+                .Select(x => x.ToDto() as CommonModel);
+        }
+
+
     }
 }
