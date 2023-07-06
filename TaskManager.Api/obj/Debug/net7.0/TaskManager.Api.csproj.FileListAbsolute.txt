@@ -76,3 +76,7 @@ E:\Программирование\Обучение\TaskManager\TaskManager.Api
 E:\Программирование\Обучение\TaskManager\TaskManager.Api\obj\Debug\net7.0\TaskManager.Api.pdb
 E:\Программирование\Обучение\TaskManager\TaskManager.Api\obj\Debug\net7.0\TaskManager.Api.genruntimeconfig.cache
 E:\Программирование\Обучение\TaskManager\TaskManager.Api\obj\Debug\net7.0\ref\TaskManager.Api.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Api\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Api\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Api\bin\Debug\net7.0\Newtonsoft.Json.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Api\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

@@ -42,7 +42,7 @@ namespace TaskManager.Api.Controllers
             return desk == null ? NotFound() : Ok(desk);
         }
 
-        [HttpGet("project/{projectId}")]
+        [HttpGet] // Если убираем [HttpGet("project/{projectId}")], то прописываем параметры в ссылке запроса (в Postman)
         public async Task<IEnumerable<CommonModel>> GetProjectDesks(int projectId)
         {
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
@@ -88,6 +88,8 @@ namespace TaskManager.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            bool result = _deskService.Delete(id);
+            return result ? Ok() : NotFound();
         }
     }
 }
