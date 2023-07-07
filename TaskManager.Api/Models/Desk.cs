@@ -24,7 +24,6 @@ namespace TaskManager.Api.Models
             Id = deskModel.Id;
             AdminId = deskModel.AdminId;
             IsPrivate = deskModel.IsPrivate;
-            AdminId = deskModel.AdminId;
             ProjectId = deskModel.ProjectId;
 
             if (deskModel.Columns.Any())
@@ -45,7 +44,7 @@ namespace TaskManager.Api.Models
                 AdminId = this.AdminId,
                 IsPrivate = this.IsPrivate,
                 Columns = JsonConvert.DeserializeObject<string[]>(this.Columns),
-            ProjectId = this.ProjectId
+                ProjectId = this.ProjectId
             };
         }
     }

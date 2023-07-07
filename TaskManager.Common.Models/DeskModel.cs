@@ -6,6 +6,6 @@
         public string[] Columns { get; set; }
         public int? ProjectId { get; set; }
         public int? AdminId { get; set; }
-        public List<int> TasksIds { get; set; }
+        public List<int>? TasksIds { get; set; }
     }
 }
