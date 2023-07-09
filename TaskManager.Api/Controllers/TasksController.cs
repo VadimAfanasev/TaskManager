@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TaskManager.Api.Models.Data;
 using TaskManager.Api.Models.Services;
+using TaskManager.Common.Models;
 
 namespace TaskManager.Api.Controllers
 {
@@ -20,25 +22,51 @@ namespace TaskManager.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<CommonModel>> GetTasksByDesk(int deskId)
         {
-            return new string[] { "value1", "value2" };
+            return await _taskService.GetAll(deskId).ToListAsync();
+        }
+
+        [HttpGet("user")]
+        public async Task<IEnumerable<CommonModel>> GetTasksForCurrentUser()
+        {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                return await _taskService.GetTaskForUser(user.Id).ToListAsync();
+            }
+            return Array.Empty<CommonModel>();
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var task = _taskService.Get(id);
+            return task == null ? NotFound() : Ok(task);
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Create([FromBody] TaskModel model)
         {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                if (model != null)
+                {
+                    model.CreatorId = user.Id;
+                    bool result = _taskService.Create(model);
+                    return result ? Ok() : NotFound();
+                }
+                return BadRequest();
+            }
+            return Unauthorized();
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            bool result = _taskService.Delete(id);
+            return result ? Ok() : NotFound();
         }
     }
 }

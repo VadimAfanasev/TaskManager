@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using TaskManager.Api.Models.Abstractions;
@@ -42,6 +43,11 @@ namespace TaskManager.Api.Models.Services
             return task?.ToDto();
         }
 
+        public IQueryable<CommonModel> GetTaskForUser(int userId)
+        {
+            return _db.Tasks.Where(x => x.CreatorId == userId || x.ExecutorId == userId).Select(x=>x.ToDto() as CommonModel);
+        }
+
         public bool Update(int id, TaskModel model)
         {
             bool result = DoAction(delegate ()
@@ -63,6 +69,11 @@ namespace TaskManager.Api.Models.Services
                 _db.SaveChanges();
             });
             return result;
+        }
+
+        public IQueryable<CommonModel> GetAll(int deskId)
+        {
+            return _db.Tasks.Where(d => d.DeskId == deskId).Select(x => x.ToDto() as CommonModel);
         }
     }
 }
