@@ -21,17 +21,16 @@ namespace TaskManager.Api.Models
 
         }
 
-        public Task(DeskModel taskModel) : base(taskModel)
+        public Task(TaskModel taskModel) : base(taskModel)
         {
             Id = taskModel.Id;
-            AdminId = taskModel.AdminId;
-            IsPrivate = taskModel.IsPrivate;
-            ProjectId = taskModel.ProjectId;
-
-            if (taskModel.Columns.Any())
-            {
-                Column = JsonConvert.SerializeObject(taskModel.Columns);
-            }
+            StartDate = taskModel.CreationDate;
+            EndDate = taskModel.EndDate;
+            File = taskModel.File;
+            DeskId = taskModel.DeskId;
+            Column = taskModel.Column;
+            CreatorId = taskModel.CreatorId;
+            ExecutorId = taskModel.ExecutorId;
         }
 
         public TaskModel ToDto()
@@ -43,10 +42,13 @@ namespace TaskManager.Api.Models
                 Description = this.Description,
                 CreationDate = this.CreationDate,
                 Photo = this.Photo,
-                AdminId = this.AdminId,
-                IsPrivate = this.IsPrivate,
-                Columns = JsonConvert.DeserializeObject<string[]>(this.Columns),
-                ProjectId = this.ProjectId
+                StartDate = this.CreationDate,
+                EndDate = this.EndDate,
+                File = this.File,
+                DeskId = this.DeskId,
+                Column = this.Column,
+                CreatorId = this.CreatorId,
+                ExecutorId = this.ExecutorId
             };
         }
     }

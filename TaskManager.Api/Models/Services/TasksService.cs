@@ -1,4 +1,7 @@
-﻿using TaskManager.Api.Models.Abstractions;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using TaskManager.Api.Models.Abstractions;
 using TaskManager.Api.Models.Data;
 using TaskManager.Common.Models;
 
@@ -24,17 +27,42 @@ namespace TaskManager.Api.Models.Services
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            bool result = DoAction(delegate ()
+            {
+                Task task = _db.Tasks.FirstOrDefault(x => x.Id == id);
+                _db.Tasks.Remove(task);
+                _db.SaveChanges();
+            });
+            return result;
         }
 
         public TaskModel Get(int id)
         {
-            throw new NotImplementedException();
+            Task task = _db.Tasks.FirstOrDefault(x => x.Id == id);
+            return task?.ToDto();
         }
 
         public bool Update(int id, TaskModel model)
         {
-            throw new NotImplementedException();
+            bool result = DoAction(delegate ()
+            {
+                Task task = _db.Tasks.FirstOrDefault(x => x.Id == id);
+
+                task.Name = model.Name;
+                task.Description = model.Description;
+                task.Photo = model.Photo;
+                task.StartDate = model.CreationDate;
+                task.EndDate = model.EndDate;
+                task.File = model.File;
+                task.DeskId = model.DeskId;
+                task.Column = model.Column;
+                task.CreatorId = model.CreatorId;
+                task.ExecutorId = model.ExecutorId;
+
+                _db.Tasks.Update(task);
+                _db.SaveChanges();
+            });
+            return result;
         }
     }
 }
