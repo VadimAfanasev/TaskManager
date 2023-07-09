@@ -51,6 +51,19 @@ namespace TaskManager.Api.Models
                 ExecutorId = this.ExecutorId
             };
         }
+        public TaskModel ToShortDto()
+        {
+            return new TaskModel()
+            {
+                Id = this.Id,
+                Name = this.Name,
+                Description = this.Description,
+                CreationDate = this.CreationDate,
+                Photo = this.Photo,
+                StartDate = this.CreationDate,
+                EndDate = this.EndDate,
+            };
+        }
     }
 
 }

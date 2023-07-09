@@ -67,7 +67,7 @@ namespace TaskManager.Api.Models.Services
 
         public IQueryable<CommonModel> GetAll(int userId)
         {
-            return _db.Desks.Where(d => d.AdminId == userId).Select(x => x.ToDto() as CommonModel);
+            return _db.Desks.Where(d => d.AdminId == userId).Select(x => x.ToShortDto());
         }
 
         public IQueryable<CommonModel> GetProjectDesks(int projectId, int userId)

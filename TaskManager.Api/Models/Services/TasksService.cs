@@ -73,7 +73,7 @@ namespace TaskManager.Api.Models.Services
 
         public IQueryable<CommonModel> GetAll(int deskId)
         {
-            return _db.Tasks.Where(d => d.DeskId == deskId).Select(x => x.ToDto() as CommonModel);
+            return _db.Tasks.Where(d => d.DeskId == deskId).Select(x => x.ToShortDto() as CommonModel);
         }
     }
 }

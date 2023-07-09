@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Api.Models.Data;
 using TaskManager.Api.Models.Services;
@@ -8,6 +9,8 @@ namespace TaskManager.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
+
     public class TasksController : ControllerBase
     {
         private readonly ApplicationContext _db;
@@ -67,6 +70,22 @@ namespace TaskManager.Api.Controllers
         {
             bool result = _taskService.Delete(id);
             return result ? Ok() : NotFound();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult Update(int id, [FromBody] TaskModel taskModel)
+        {
+            var user = _usersService.GetUser(HttpContext.User.Identity.Name);
+            if (user != null)
+            {
+                if (taskModel != null)
+                {
+                    bool result = _taskService.Update(id, taskModel);
+                    return result ? Ok() : NotFound();
+                }
+                return BadRequest();
+            }
+            return Unauthorized();
         }
     }
 }
