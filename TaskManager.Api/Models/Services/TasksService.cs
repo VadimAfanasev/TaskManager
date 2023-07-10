@@ -71,9 +71,9 @@ namespace TaskManager.Api.Models.Services
             return result;
         }
 
-        public IQueryable<CommonModel> GetAll(int deskId)
+        public IQueryable<TaskModel> GetAll(int deskId)
         {
-            return _db.Tasks.Where(d => d.DeskId == deskId).Select(x => x.ToShortDto() as CommonModel);
+            return _db.Tasks.Where(d => d.DeskId == deskId).Select(x => x.ToShortDto());
         }
     }
 }

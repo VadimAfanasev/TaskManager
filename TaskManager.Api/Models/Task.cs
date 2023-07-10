@@ -59,9 +59,12 @@ namespace TaskManager.Api.Models
                 Name = this.Name,
                 Description = this.Description,
                 CreationDate = this.CreationDate,
-                Photo = this.Photo,
                 StartDate = this.CreationDate,
                 EndDate = this.EndDate,
+                DeskId = this.DeskId,
+                Column = this.Column,
+                CreatorId = this.CreatorId,
+                ExecutorId = this.ExecutorId
             };
         }
     }
