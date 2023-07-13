@@ -9,7 +9,7 @@ namespace TaskManager.Client.Services.Tests
         public void GetTokenTest()
         {
             var token = new UsersRequestService().GetToken("trim-agency@yandex.ru", "qwerty123");
-            Console.WriteLine(token.access_token);
+            Console.WriteLine(token);
             Assert.IsNotNull(token);
         }
     }
