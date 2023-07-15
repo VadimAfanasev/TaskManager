@@ -90,7 +90,7 @@ namespace TaskManager.Client.Services
             return users;
         }
 
-        public HttpStatusCode DeleteUsers(AuthToken token, int userId)
+        public HttpStatusCode DeleteUser(AuthToken token, int userId)
         {
             var result = DeleteDataByUrl(_usersControllerUrl + $"/{userId}", token);
             return result;
