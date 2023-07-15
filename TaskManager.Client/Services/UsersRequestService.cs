@@ -37,18 +37,29 @@ namespace TaskManager.Client.Services
             return result;
         }
 
-        private HttpStatusCode DoActionDataByUrl(string url, AuthToken token, string data, HttpMethod method)
+        private HttpStatusCode SendDataByUrl(HttpMethod method, string url, AuthToken token, string data)
         {
             HttpResponseMessage result = new HttpResponseMessage();
             HttpClient client = new HttpClient();
+
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.access_token);
             var content = new StringContent(data, Encoding.UTF8, "application/json");
+
             if (method == HttpMethod.Post)
                 result = client.PostAsync(url, content).Result;
             if (method == HttpMethod.Patch)
-                result = client.PatchAsync(url, content).Result;
-            if (method == HttpMethod.Delete)
-                result = client.DeleteAsync(url).Result;
+                result = client.PatchAsync(url, content).Result;              
+
+            return result.StatusCode;
+        }
+
+        private HttpStatusCode DeleteDataByUrl(string url, AuthToken token)
+        {
+            HttpResponseMessage result = new HttpResponseMessage();
+            HttpClient client = new HttpClient();
+
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.access_token);
+            result = client.DeleteAsync(url).Result;
 
             return result.StatusCode;
         }
@@ -64,7 +75,7 @@ namespace TaskManager.Client.Services
         public HttpStatusCode CreateUser(AuthToken token, UserModel user)
         {
             string userJson = JsonConvert.SerializeObject(user);
-            var result = DoActionDataByUrl(_userController, token, userJson, HttpMethod.Post);
+            var result = SendDataByUrl(HttpMethod.Post, _userController, token, userJson);
             return result;
         }
 
@@ -73,6 +84,26 @@ namespace TaskManager.Client.Services
             string response = GetDataByUrl(_userController);
             List<UserModel> users = JsonConvert.DeserializeObject<List<UserModel>>(response);
             return users;
+        }
+
+        public HttpStatusCode DeleteUsers(AuthToken token, int userId)
+        {
+            var result = DeleteDataByUrl(_userController + $"/{userId}", token);
+            return result;
+        }
+
+        public HttpStatusCode CreateMultipleUsers(AuthToken token, List<UserModel> users)
+        {
+            string userJson = JsonConvert.SerializeObject(users);
+            var result = SendDataByUrl(HttpMethod.Post, _userController + "/all", token, userJson);
+            return result;
+        }
+
+        public HttpStatusCode UpdateUser(AuthToken token, UserModel user)
+        {
+            string userJson = JsonConvert.SerializeObject(user);
+            var result = SendDataByUrl(HttpMethod.Patch, _userController, token, userJson);
+            return result;
         }
 
         //private async Task<string> GetDataByUrl(string url, string userName, string password)
