@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using TaskManager.Client.Models;
 using TaskManager.Common.Models;
 
@@ -49,10 +45,10 @@ namespace TaskManager.Client.Services
             return result;
         }
 
-        public HttpStatusCode AddUsersToProject(AuthToken token, int prijectId, List<int> usersIds)
+        public HttpStatusCode AddUsersToProject(AuthToken token, int projectId, List<int> usersIds)
         {
             string usersIdsJson = JsonConvert.SerializeObject(usersIds);
-            var result = SendDataByUrl(HttpMethod.Patch, _projectsControllerUrl + $"/{prijectId}/users", token, usersIdsJson);
+            var result = SendDataByUrl(HttpMethod.Patch, _projectsControllerUrl + $"/{projectId}/users", token, usersIdsJson);
             return result;
         }
 

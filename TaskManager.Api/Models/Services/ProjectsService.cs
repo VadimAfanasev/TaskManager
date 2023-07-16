@@ -44,7 +44,7 @@ namespace TaskManager.Api.Models.Services
                 project.Description = model.Description;
                 project.Photo = model.Photo;
                 project.Status = model.Status;
-                project.AdminId = model.AdminId;
+                //project.AdminId = model.AdminId;
 
                 _db.Projects.Update(project);
                 _db.SaveChanges();
