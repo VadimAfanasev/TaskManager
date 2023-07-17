@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using DryIoc;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -10,9 +13,10 @@ namespace TaskManager.Client.Services
     {
         public const string HOST = "http://localhost:54067/api/";
 
-        protected string GetDataByUrl(HttpMethod method, string url, AuthToken token, string userName = null, string password = null)
+        protected string GetDataByUrl(HttpMethod method, string url, AuthToken token, string userName = null, string password = null, 
+            Dictionary<string, string> parameters = null)
         {
-            string result = string.Empty;
+            /*string result = string.Empty;
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Method = method.Method;
 
@@ -32,6 +36,36 @@ namespace TaskManager.Client.Services
                 string responseStr = reader.ReadToEnd();
                 result = responseStr;
             }
+            return result;
+
+            //************************************/
+
+            WebClient client = new WebClient();
+            if (userName != null && password != null)
+            {
+                string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(userName + ":" + password));
+                client.Headers.Add("Authorization", "Basic " + encoded);
+            }
+            else if (token != null)
+            {
+                client.Headers.Add("Authorization", "Bearer " + token.access_token);
+            }
+            if (parameters != null)
+            {
+                foreach (var key in parameters.Keys)
+                {
+                    client.QueryString.Add(key, parameters[key]);
+                }
+            }
+
+            byte[] data = Array.Empty<byte>();
+
+            if (method == HttpMethod.Post)
+                data = client.UploadValues(url, method.Method, client.QueryString);
+            if (method == HttpMethod.Get)
+                data = client.DownloadData(url);
+
+            string result = UnicodeEncoding.UTF8.GetString(data);
             return result;
         }
 
