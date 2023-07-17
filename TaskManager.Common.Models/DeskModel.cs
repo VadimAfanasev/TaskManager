@@ -7,5 +7,14 @@
         public int? ProjectId { get; set; }
         public int? AdminId { get; set; }
         public List<int>? TasksIds { get; set; }
+
+        public DeskModel() { }
+        public DeskModel(string name, string descriprion, bool isPrivate, string[] columns)
+        {
+            Name = name;
+            Description = descriprion;
+            IsPrivate = isPrivate;
+            Columns = columns;
+        }
     }
 }
