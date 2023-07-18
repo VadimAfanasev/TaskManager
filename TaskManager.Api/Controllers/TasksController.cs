@@ -37,10 +37,10 @@ namespace TaskManager.Api.Controllers
             var user = _usersService.GetUser(HttpContext.User.Identity.Name);
             if (user != null)
             {
-                var result = await _taskService.GetTaskForUser(user.Id).ToListAsync();
+                var result = await _taskService.GetTasksForUser(user.Id).ToListAsync();
                 return result == null ? NoContent() : Ok(result);
             }
-            return Unauthorized(Array.Empty<TaskModel>());
+            return Unauthorized();
         }
 
         [HttpGet("{id}")]

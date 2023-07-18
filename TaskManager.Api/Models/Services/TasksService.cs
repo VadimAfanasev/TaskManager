@@ -43,9 +43,9 @@ namespace TaskManager.Api.Models.Services
             return task?.ToDto();
         }
 
-        public IQueryable<CommonModel> GetTaskForUser(int userId)
+        public IQueryable<TaskModel> GetTasksForUser(int userId)
         {
-            return _db.Tasks.Where(x => x.CreatorId == userId || x.ExecutorId == userId).Select(x=>x.ToDto() as CommonModel);
+            return _db.Tasks.Where(x => x.CreatorId == userId || x.ExecutorId == userId).Select(x=>x.ToDto());
         }
 
         public bool Update(int id, TaskModel model)
