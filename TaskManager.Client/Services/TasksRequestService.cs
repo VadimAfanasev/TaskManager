@@ -33,7 +33,7 @@ namespace TaskManager.Client.Services
         {
             var parameters = new Dictionary<string, string>();
             parameters.Add("deskId", deskId.ToString());
-            string response = GetDataByUrl(HttpMethod.Get, _tasksControllerUrl + $"/desk", token, null, null, parameters);
+            string response = GetDataByUrl(HttpMethod.Get, _tasksControllerUrl, token, null, null, parameters);
             List<TaskModel> tasks = JsonConvert.DeserializeObject<List<TaskModel>>(response);
             return tasks;
         }
