@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\App.xaml
-1-1644662438
+3-1434315478
 
-101573266494
+1134753929
 201-541899306
-Views\MainWindow.xaml;
+Resources\Styles\MainStyle.xaml;Views\Login.xaml;Views\MainWindow.xaml;
 
 False
 

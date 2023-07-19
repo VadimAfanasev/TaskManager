@@ -28,3 +28,7 @@ E:\Программирование\Обучение\TaskManager\TaskManager.Cli
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\bin\Debug\net6.0-windows\TaskManager.Common.Models.dll
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\bin\Debug\net6.0-windows\TaskManager.Common.Models.pdb
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Login.g.cs
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Resources\Styles\MainStyle.baml
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\App.baml
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Login.baml
