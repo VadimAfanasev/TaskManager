@@ -25,6 +25,5 @@
                     Style="{StaticResource commonBtn}"
                     Width="100"/>
         </StackPanel>
-        
     </Grid>
 </Window>
