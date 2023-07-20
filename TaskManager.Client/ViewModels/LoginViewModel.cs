@@ -1,7 +1,9 @@
-﻿using Prism.Commands;
+﻿using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,8 @@ namespace TaskManager.Client.ViewModels
         #endregion
 
         #region PROPERTIES
+        private string _cachePath = Path.GetTempPath() + "usertaskmanagercource.txt";
+
         public LoginViewModel() 
         {
             _usersRequestService = new UsersRequestService();
@@ -65,13 +69,23 @@ namespace TaskManager.Client.ViewModels
             UserPassword = passBox.Password;
 
             AuthToken = _usersRequestService.GetToken(UserLogin, UserPassword);
-            if (AuthToken != null) 
+            if (AuthToken == null)
+                return;
+
+            CurrentUser = _usersRequestService.GetCurrentUser(AuthToken);
+            if (CurrentUser != null)
             {
-                CurrentUser = _usersRequestService.GetCurrent(AuthToken);
-                if (CurrentUser != null)
-                {
-                    MessageBox.Show(CurrentUser.FirstName);
-                }
+                MessageBox.Show(CurrentUser.FirstName);
+            }
+        }
+
+        private void CreateUserCache(UserCache userCache)
+        {
+            string jsonUserCache = JsonConvert.SerializeObject(userCache);
+            using(StreamWriter sw = new StreamWriter(_cachePath, false, Encoding.Default))
+            {
+                sw.Write(jsonUserCache);
+                MessageBox.Show("Успех!");
             }
         }
 
