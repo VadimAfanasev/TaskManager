@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
+using TaskManager.Client.Views;
 using TaskManager.Common.Models;
 
 namespace TaskManager.Client.ViewModels
@@ -21,21 +22,35 @@ namespace TaskManager.Client.ViewModels
 
         #region COMMAND
         public DelegateCommand<object> GetUserFromDBCommand { get; private set; }
+        public DelegateCommand<object> LoginFromCacheCommand { get; private set; }
+
+        public LoginViewModel()
+        {
+            _usersRequestService = new UsersRequestService();
+            CurrentUserCache = GetUserCache();
+
+            GetUserFromDBCommand = new DelegateCommand<object>(GetUserFromDB);
+            LoginFromCacheCommand = new DelegateCommand<object>(LoginFromCache);
+        }
         #endregion
 
         #region PROPERTIES
         private string _cachePath = Path.GetTempPath() + "usertaskmanagercource.txt";
 
-        public LoginViewModel() 
-        {
-            _usersRequestService = new UsersRequestService();
-
-
-            GetUserFromDBCommand = new DelegateCommand<object>(GetUserFromDB);
-        }
-
+        private Window _currentWindow;
         public string UserLogin { get; set; }
         public string UserPassword { get; set; }
+
+        private UserCache _currentUserCache;
+        public UserCache CurrentUserCache
+        {
+            get => _currentUserCache;
+            set
+            {
+                _currentUserCache = value;
+                RaisePropertyChanged(nameof(CurrentUserCache));
+            }
+        }
 
         private UserModel _currentUser;
         public UserModel CurrentUser
@@ -65,7 +80,15 @@ namespace TaskManager.Client.ViewModels
         private void GetUserFromDB(object parameter)
         {
             var passBox = parameter as PasswordBox;
+            bool isNewUser = false;
 
+            _currentWindow = Window.GetWindow(passBox);
+
+            if (UserLogin != CurrentUserCache?.Login || UserPassword != CurrentUserCache?.Password)
+            {
+                isNewUser = true;
+            }
+            
             UserPassword = passBox.Password;
 
             AuthToken = _usersRequestService.GetToken(UserLogin, UserPassword);
@@ -75,7 +98,17 @@ namespace TaskManager.Client.ViewModels
             CurrentUser = _usersRequestService.GetCurrentUser(AuthToken);
             if (CurrentUser != null)
             {
-                MessageBox.Show(CurrentUser.FirstName);
+                if ( isNewUser)
+                {
+                    var saveUserCacheMessage = MessageBox.Show("Хотите сохранить логин и пароль?", "Сохранение данных", MessageBoxButton.YesNo);
+                    if (saveUserCacheMessage == MessageBoxResult.Yes)
+                    {
+                        UserCache newUserCache = new UserCache()
+                        { Login = UserLogin, Password = UserPassword };
+                        CreateUserCache(newUserCache);
+                    }
+                }
+                OpenMainWindow();
             }
         }
 
@@ -89,6 +122,38 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+        private UserCache GetUserCache()
+        {
+            bool isCacheExist = File.Exists(_cachePath);
+
+            if (isCacheExist && File.ReadAllText(_cachePath)?.Length >0)
+            {
+                return JsonConvert.DeserializeObject<UserCache>(File.ReadAllText(_cachePath));
+            }
+
+            return null;
+        }
+
+        private void LoginFromCache(object wnd)
+        {
+            _currentWindow = wnd as Window;
+            UserLogin = CurrentUserCache.Login;
+            UserPassword = CurrentUserCache.Password;
+            AuthToken = _usersRequestService.GetToken(UserLogin, UserPassword);
+
+            CurrentUser = _usersRequestService.GetCurrentUser(AuthToken);
+            if (CurrentUser != null)
+            {
+                OpenMainWindow();
+            }
+        }
+
+        private void OpenMainWindow() 
+        { 
+            MainWindow window = new MainWindow();
+            window.Show();
+            _currentWindow.Close();
+        }
         #endregion
     }
 }
