@@ -32,3 +32,5 @@ E:\Программирование\Обучение\TaskManager\TaskManager.Cli
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Resources\Styles\MainStyle.baml
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\App.baml
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Login.baml
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Pages\UserInfoPage.g.cs
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Pages\UserInfoPage.baml

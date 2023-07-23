@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using TaskManager.Client.Models;
+using TaskManager.Client.Views.Pages;
 using TaskManager.Common.Models;
 
 namespace TaskManager.Client.ViewModels
@@ -63,7 +65,6 @@ namespace TaskManager.Client.ViewModels
         private readonly string _manageUsersBtnName = "Users";
 
         private AuthToken _token;
-
         public AuthToken Token
         {
             get => _token; 
@@ -75,7 +76,6 @@ namespace TaskManager.Client.ViewModels
         }
 
         private UserModel _currentUser;
-
         public UserModel CurrentUser
         {
             get => _currentUser;
@@ -86,9 +86,7 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
-
         private Dictionary<string, DelegateCommand> _navButtons = new Dictionary<string, DelegateCommand>();
-
         public Dictionary<string, DelegateCommand> NavButtons
         {
             get => _navButtons;
@@ -99,27 +97,54 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+        private string _selectedPageName;
+        public string SelectedPageName
+        {
+            get => _selectedPageName;
+            set 
+            {
+                _selectedPageName = value;
+                RaisePropertyChanged(nameof(SelectedPageName));
+            }
+        }
+
+        private Page _selectedPage;
+        public Page SelectedPage
+        {
+            get => _selectedPage; 
+            set 
+            { 
+                _selectedPage = value;
+                RaisePropertyChanged(nameof(SelectedPage));
+            }
+        }
+
         #endregion
 
         #region METHODS
 
         private void OpenMyInfoPage()
         {
-            ShowMessage(_userInfoBtnName);
+            var page = new UserInfoPage();
+            page.DataContext = this;
+            OpenPage(page, _userInfoBtnName);
         }
         private void OpenProjectsPage()
         {
+            SelectedPageName = _userProjectsBtnName;
             ShowMessage(_userProjectsBtnName);
         }
 
         private void OpenDeskPage()
         {
+            SelectedPageName = _userDesksBtnName;
             ShowMessage(_userDesksBtnName);
         }
 
 
         private void OpenTasksPage()
         {
+            SelectedPageName = _userTasksBtnName;
             ShowMessage(_userTasksBtnName);
         }
 
@@ -130,6 +155,7 @@ namespace TaskManager.Client.ViewModels
 
         private void OpenUsersManagement()
         {
+            SelectedPageName = _manageUsersBtnName;
             ShowMessage(_manageUsersBtnName);
         }
 
@@ -138,6 +164,12 @@ namespace TaskManager.Client.ViewModels
         private void ShowMessage(string message)
         {
             MessageBox.Show(message);
+        }
+
+        private void OpenPage(Page page, string pageName)
+        {
+            SelectedPageName = pageName;
+            SelectedPage = page;
         }
     }
 }
