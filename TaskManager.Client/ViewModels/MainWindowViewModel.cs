@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Client.Models;
+using TaskManager.Client.Views;
 using TaskManager.Client.Views.Pages;
 using TaskManager.Common.Models;
 
@@ -27,10 +28,11 @@ namespace TaskManager.Client.ViewModels
 
         #endregion
 
-        public MainWindowViewModel(AuthToken token, UserModel currentUser) 
+        public MainWindowViewModel(AuthToken token, UserModel currentUser, Window currentWindow = null) 
         {
             Token = token;
             CurrentUser = currentUser;
+            _currentWindow = currentWindow;
 
             OpenMyInfoPageCommand = new DelegateCommand(OpenMyInfoPage);
             NavButtons.Add(_userInfoBtnName, OpenMyInfoPageCommand);
@@ -52,6 +54,8 @@ namespace TaskManager.Client.ViewModels
 
             LogoutCommand = new DelegateCommand(Logout);
             NavButtons.Add(_logoutBtnName, LogoutCommand);
+
+            OpenMyInfoPage();
         }
 
         #region PROPERTIES
@@ -63,6 +67,8 @@ namespace TaskManager.Client.ViewModels
         private readonly string _logoutBtnName = "Logout";
 
         private readonly string _manageUsersBtnName = "Users";
+
+        private Window _currentWindow;
 
         private AuthToken _token;
         public AuthToken Token
@@ -150,7 +156,13 @@ namespace TaskManager.Client.ViewModels
 
         private void Logout()
         {
-            ShowMessage(_logoutBtnName);
+            var question = MessageBox.Show("Are you sure?", "Logout", MessageBoxButton.YesNo);
+            if (question == MessageBoxResult.Yes && _currentWindow != null)
+            {
+                Login login = new Login();
+                login.Show();
+                _currentWindow.Close();
+            }
         }
 
         private void OpenUsersManagement()
