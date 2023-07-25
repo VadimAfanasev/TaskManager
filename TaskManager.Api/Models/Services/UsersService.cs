@@ -129,8 +129,8 @@ namespace TaskManager.Api.Models.Services
 
         public UserModel Get(int id)
         {
-            User userForUpdate = _db.Users.FirstOrDefault(x => x.Id == id);
-            return userForUpdate?.ToDto();
+            User user = _db.Users.FirstOrDefault(x => x.Id == id);
+            return user?.ToDto();
         }
 
         public IEnumerable<UserModel> GetAllByIds(List<int> usersIds) 

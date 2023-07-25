@@ -12,12 +12,12 @@ using TaskManager.Common.Models;
 
 namespace TaskManager.Client.ViewModels
 {
-    class UserTasksPageViewModel : BindableBase
+    public class UserTasksPageViewModel : BindableBase
     {
         private AuthToken _token;
         private TasksRequestService _tasksRequestService;
         private UsersRequestService _usersRequestService;
-        UserTasksPageViewModel(AuthToken token)
+        public UserTasksPageViewModel(AuthToken token)
         {
             _token = token;
             _tasksRequestService = new TasksRequestService();
@@ -27,12 +27,22 @@ namespace TaskManager.Client.ViewModels
         public List<TaskClient> AllTasks
         {
             get => _tasksRequestService.GetAllTasks(_token).Select(
-                task => new TaskClient(task)
+                task =>
                 {
-                    Creator = _usersRequestService.GetUserById(_token, task.CreatorId),
-                    Executor = _usersRequestService.GetUserById(_token, task.ExecutorId),
-                }
-                ).ToList();
+                    var taskClient = new TaskClient(task);
+                    
+                    if (task.CreatorId != null)
+                    {
+                        int creatorId = (int)task.CreatorId;
+                        taskClient.Creator = _usersRequestService.GetUserById(_token, creatorId);
+                    }
+                    if (task.ExecutorId != null)
+                    {
+                        int executorId = (int)task.ExecutorId;
+                        taskClient.Executor = _usersRequestService.GetUserById(_token, executorId);
+                    }
+                    return taskClient;
+                }).ToList();
         }
     }
 }

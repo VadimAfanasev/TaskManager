@@ -10,7 +10,7 @@ using TaskManager.Common.Models;
 
 namespace TaskManager.Client.Models
 {
-    class TaskClient
+    public class TaskClient
     {
         public TaskModel Model { get; private set; }
         public TaskClient(TaskModel model)

@@ -17,9 +17,9 @@
                     <GridViewColumn Header="Name"
                                     DisplayMemberBinding="{Binding Path=Model.Name}"/>
                     <GridViewColumn Header="Creator"
-                                    DisplayMemberBinding="{Binding Path=Creator.Email}"/>
+                                    DisplayMemberBinding="{Binding Path=Creator}"/>
                     <GridViewColumn Header="Executor"
-                                    DisplayMemberBinding="{Binding Path=Executor.Email}"/>
+                                    DisplayMemberBinding="{Binding Path=Executor}"/>
                     <GridViewColumn Header="Start"
                                     DisplayMemberBinding="{Binding Path=Model.StartDate}"/>
                     <GridViewColumn Header="End"

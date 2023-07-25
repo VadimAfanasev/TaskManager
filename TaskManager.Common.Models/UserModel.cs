@@ -30,5 +30,10 @@ namespace TaskManager.Common.Models
             RegistrationDate = DateTime.Now;
         }
         public UserModel() { }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

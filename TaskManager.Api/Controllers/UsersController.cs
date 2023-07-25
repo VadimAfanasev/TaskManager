@@ -56,6 +56,13 @@ namespace TaskManager.Api.Controllers
             return result ? Ok() : NotFound();
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<UserModel> GetUser(int id)
+        {
+            var user = _usersService.Get(id);
+            return user == null ? NotFound() : Ok(user);
+        }
+
         [HttpGet]
         public async Task<IEnumerable<UserModel>> GetUsers()
         {
