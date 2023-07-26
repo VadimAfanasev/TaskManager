@@ -1,14 +1,8 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
-using TaskManager.Client.Views;
-using TaskManager.Client.Views.Pages;
-using TaskManager.Common.Models;
 
 namespace TaskManager.Client.ViewModels
 {

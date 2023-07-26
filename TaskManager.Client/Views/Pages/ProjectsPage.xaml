@@ -13,24 +13,13 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Button Content="New project" Command="{Binding}">
-                <Button.Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource commonBtn}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Status}" Value="User">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Setter Property="Height" Value="0"/>
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Button Content="New project" Command="{Binding OpenNewProjectCommand}" Style="{StaticResource commonBtn}"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding UserProjects}">
                     <ItemsControl.ItemsPanel>
@@ -42,18 +31,53 @@
                         <DataTemplate>
                             <Border Style="{StaticResource commonBorder}">
                                 <StackPanel Margin="10">
-                                    <TextBlock Text="{Binding Path=}"
+                                    
+                                    <TextBlock Text="{Binding Path=Model.Name}"
                                                Style="{StaticResource commonTBlock}"/>
+                                    
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Numbers: " Style="{StaticResource commonTBlock}"/>
-                                        <TextBlock Text="{Binding Path=}" Style="{StaticResource commonTBlock}"/>
+                                        <TextBlock Text="{Binding Path=Model.AllUsersIds.Count}" Style="{StaticResource commonTBlock}"/>
                                     </StackPanel>
+                                    
+                                    <Image Source="{Binding Path=Image}" Width="100" Height="100"/>
+                                    
+                                    <Button Content="Open" Command="{Binding Path=DataContext.ShowProjectInfoCommand,
+                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                            CommandParameter="{Binding}"/>
+                                    
+                                    <Button Content="Edit" Command="{Binding Path=DataContext.OpenUpdateProjectCommand,
+                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding SelectedProject.Model.Name}"
+                       Style="{StaticResource headerTBlock}"/>
+            <TextBlock Grid.Row="1" Text="{Binding SelectedProject.Model.Description}"
+                       Style="{StaticResource commonTBlock}"/>
+            <Button Grid.Row="2" Content="Add users" Command="{Binding}" Style="{StaticResource commonBtn}"/>
+            <Button Grid.Row="3" Content="Desks" Command="{Binding}" Style="{StaticResource commonBtn}"/>
+            <ListBox Grid.Row="4" ItemsSource="{Binding ProjectUsers}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Email}" Style="{StaticResource commonTBlock}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 </Page>

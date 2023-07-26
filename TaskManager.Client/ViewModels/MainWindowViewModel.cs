@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Client.Models;
+using TaskManager.Client.Services;
 using TaskManager.Client.Views;
 using TaskManager.Client.Views.Pages;
 using TaskManager.Common.Models;
@@ -12,6 +13,7 @@ namespace TaskManager.Client.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        private CommonViewService _viewService;
         #region COMMANDS
 
         public DelegateCommand OpenMyInfoPageCommand;
@@ -29,6 +31,7 @@ namespace TaskManager.Client.ViewModels
             Token = token;
             CurrentUser = currentUser;
             _currentWindow = currentWindow;
+            _viewService = new CommonViewService();
 
             OpenMyInfoPageCommand = new DelegateCommand(OpenMyInfoPage);
             NavButtons.Add(_userInfoBtnName, OpenMyInfoPageCommand);
@@ -132,14 +135,14 @@ namespace TaskManager.Client.ViewModels
         }
         private void OpenProjectsPage()
         {
-            SelectedPageName = _userProjectsBtnName;
-            ShowMessage(_userProjectsBtnName);
+            var page = new ProjectsPage();
+            OpenPage(page, _userProjectsBtnName, new ProjectsPageViewModel(Token));
         }
 
         private void OpenDeskPage()
         {
             SelectedPageName = _userDesksBtnName;
-            ShowMessage(_userDesksBtnName);
+            _viewService.ShowMessage(_userDesksBtnName);
         }
 
 
@@ -163,15 +166,10 @@ namespace TaskManager.Client.ViewModels
         private void OpenUsersManagement()
         {
             SelectedPageName = _manageUsersBtnName;
-            ShowMessage(_manageUsersBtnName);
+            _viewService.ShowMessage(_manageUsersBtnName);
         }
 
         #endregion
-
-        private void ShowMessage(string message)
-        {
-            MessageBox.Show(message);
-        }
 
         private void OpenPage(Page page, string pageName, BindableBase viewModel)
         {
