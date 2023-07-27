@@ -29,26 +29,23 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Style="{StaticResource commonBorder}">
+                            <Border Style="{StaticResource projectPanelBorder}">
                                 <StackPanel Margin="10">
                                     
                                     <TextBlock Text="{Binding Path=Model.Name}"
                                                Style="{StaticResource commonTBlock}"/>
                                     
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Numbers: " Style="{StaticResource commonTBlock}"/>
-                                        <TextBlock Text="{Binding Path=Model.AllUsersIds.Count}" Style="{StaticResource commonTBlock}"/>
-                                    </StackPanel>
-                                    
                                     <Image Source="{Binding Path=Image}" Width="100" Height="100"/>
                                     
                                     <Button Content="Open" Command="{Binding Path=DataContext.ShowProjectInfoCommand,
                                             RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
-                                            CommandParameter="{Binding}"/>
+                                            CommandParameter="{Binding Path=Model.Id}"
+                                            Style="{StaticResource commonBtn}"/>
                                     
                                     <Button Content="Edit" Command="{Binding Path=DataContext.OpenUpdateProjectCommand,
                                             RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                            CommandParameter="{Binding}"/>
+                                            CommandParameter="{Binding Path=Model.Id}"
+                                            Style="{StaticResource commonBtn}"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
