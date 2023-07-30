@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
+using TaskManager.Client.Views.AddWindows;
 using TaskManager.Common.Models;
 
 namespace TaskManager.Client.ViewModels
@@ -78,7 +79,10 @@ namespace TaskManager.Client.ViewModels
         #region METHODS
         private void OpenNewProject()
         {
-            _viewService.ShowMessage(nameof(OpenNewProject));
+            var wnd = new CreateOrUpdateProjectWindow();
+            wnd.DataContext = this;
+            wnd.ShowDialog();
+            //_viewService.ShowMessage(nameof(OpenNewProject));
         }
         private void OpenUpdateProject(object projectId)
         {

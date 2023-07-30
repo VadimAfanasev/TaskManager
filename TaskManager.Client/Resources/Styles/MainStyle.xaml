@@ -20,6 +20,12 @@
             </Style>
         </Style.Resources>
     </Style>
+
+    <Style TargetType="TextBox" x:Key="multilineTBox" BasedOn="{StaticResource commonTBox}">
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="MinHeight" Value="60"/>
+    </Style>
     
     <Style TargetType="PasswordBox" x:Key="commonPBox">
         <Setter Property="Height" Value="20"/>
