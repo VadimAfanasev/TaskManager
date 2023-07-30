@@ -22,6 +22,8 @@ namespace TaskManager.Client.ViewModels
         public DelegateCommand OpenNewProjectCommand { get; private set; }
         public DelegateCommand<object> OpenUpdateProjectCommand { get; private set; }
         public DelegateCommand<object> ShowProjectInfoCommand { get; private set; }
+        public DelegateCommand CreateOrUpdateProjectCommand { get; private set; }
+        public DelegateCommand DeleteProjectCommand { get; private set; }
 
         #endregion
 
@@ -36,10 +38,22 @@ namespace TaskManager.Client.ViewModels
             OpenNewProjectCommand = new DelegateCommand(OpenNewProject);
             OpenUpdateProjectCommand = new DelegateCommand<object>(OpenUpdateProject);
             ShowProjectInfoCommand = new DelegateCommand<object>(ShowProjectInfo);
+            CreateOrUpdateProjectCommand = new DelegateCommand(CreateOrUpdateProject);
+            DeleteProjectCommand = new DelegateCommand(DeleteProject);
         }
 
         #region PROPERTIES
 
+        private ClientAction _typeActionWithProject;
+        public ClientAction TypeActionWithProject
+        {
+            get => _typeActionWithProject;
+            set
+            {
+                _typeActionWithProject = value;
+                RaisePropertyChanged(nameof(TypeActionWithProject));
+            }
+        }
         public List<ModelClient<ProjectModel>> UserProjects
         {
             get => _projectsRequestService.GetAllProjects(_token).Select(project => new ModelClient<ProjectModel>(project)).ToList();
@@ -79,6 +93,8 @@ namespace TaskManager.Client.ViewModels
         #region METHODS
         private void OpenNewProject()
         {
+            TypeActionWithProject = ClientAction.Create;
+
             var wnd = new CreateOrUpdateProjectWindow();
             wnd.DataContext = this;
             wnd.ShowDialog();
@@ -87,6 +103,12 @@ namespace TaskManager.Client.ViewModels
         private void OpenUpdateProject(object projectId)
         {
             SelectedProject = GetProjectClientById(projectId);
+
+            TypeActionWithProject = ClientAction.Update;
+
+            var wnd = new CreateOrUpdateProjectWindow();
+            wnd.DataContext = this;
+            wnd.ShowDialog();
         }
         private void ShowProjectInfo(object projectId)
         {
@@ -104,6 +126,57 @@ namespace TaskManager.Client.ViewModels
             catch(FormatException)
             {
                 return new ModelClient<ProjectModel>(null);
+            }
+        }
+
+        private void CreateOrUpdateProject()
+        {
+            if (_typeActionWithProject == ClientAction.Create)
+            {
+                CreateProject();
+            }
+            if (_typeActionWithProject == ClientAction.Update)
+            {
+                UpdateProject();
+            }
+        }
+
+        private void CreateProject()
+        {
+            var resultAction = _projectsRequestService.CreateProject(_token, SelectedProject.Model);
+            if (resultAction == System.Net.HttpStatusCode.OK)
+            {
+                _viewService.ShowMessage(resultAction.ToString() + "\nNew project is created");
+            }
+            else
+            {
+                _viewService.ShowMessage(resultAction.ToString() + "\nNew project is not created");
+            }
+        }
+
+        private void UpdateProject()
+        {
+            var resultAction = _projectsRequestService.UpdateProject(_token, SelectedProject.Model);
+            if (resultAction == System.Net.HttpStatusCode.OK)
+            {
+                _viewService.ShowMessage(resultAction.ToString() + "\nNew project is updated");
+            }
+            else
+            {
+                _viewService.ShowMessage(resultAction.ToString() + "\nNew project is not updated");
+            }
+        }
+
+        private void DeleteProject()
+        {
+            var resultAction = _projectsRequestService.DeleteProject(_token, SelectedProject.Model.Id);
+            if (resultAction == System.Net.HttpStatusCode.OK)
+            {
+                _viewService.ShowMessage(resultAction.ToString() + "\nNew project is deleted");
+            }
+            else
+            {
+                _viewService.ShowMessage(resultAction.ToString() + "\nNew project is not deleted");
             }
         }
 

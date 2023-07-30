@@ -65,5 +65,26 @@
                           SelectedItem="{Binding SelectedProject.Model.Status}"/>
             </Grid>
         </ScrollViewer>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Delete" 
+                    Command="{Binding DeleteProjectCommand}">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource commonBtnRed}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TypeActionWithProject}" Value="Create">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Grid.Column="1" Content="Save" 
+                    Command="{Binding CreateOrUpdateProjectCommand}" 
+                    Style="{StaticResource commonBtn}"/>
+        </Grid>
     </Grid>
 </Window>

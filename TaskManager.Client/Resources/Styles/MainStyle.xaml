@@ -52,6 +52,10 @@
             </Style.Resources>
     </Style>
 
+    <Style TargetType="Button" x:Key="commonBtnRed" BasedOn="{StaticResource commonBtn}">
+        <Setter Property="Background" Value="{StaticResource commonRedColor}"/>
+    </Style>
+
     <Style TargetType="TextBlock" x:Key="sharedTBlock">
         <Setter Property="FontStyle" Value="{StaticResource commonFontStyle}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
