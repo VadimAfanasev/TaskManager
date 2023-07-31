@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
 using TaskManager.Client.Views.AddWindows;
@@ -25,6 +26,8 @@ namespace TaskManager.Client.ViewModels
         public DelegateCommand CreateOrUpdateProjectCommand { get; private set; }
         public DelegateCommand DeleteProjectCommand { get; private set; }
         public DelegateCommand SelectPhotoForProjectCommand { get; private set; }
+        public DelegateCommand AddUsersToProjectCommand { get; private set; }
+        public DelegateCommand OpenNewUsersToProjectCommand { get; private set; }
 
         #endregion
 
@@ -44,7 +47,8 @@ namespace TaskManager.Client.ViewModels
             CreateOrUpdateProjectCommand = new DelegateCommand(CreateOrUpdateProject);
             DeleteProjectCommand = new DelegateCommand(DeleteProject);
             SelectPhotoForProjectCommand = new DelegateCommand(SelectPhotoForProject);
-
+            AddUsersToProjectCommand = new DelegateCommand(AddUsersToProject);
+            OpenNewUsersToProjectCommand = new DelegateCommand(OpenNewUsersToProject);
         }
 
         #region PROPERTIES
@@ -72,7 +76,6 @@ namespace TaskManager.Client.ViewModels
         }
 
         private ModelClient<ProjectModel> _selectedProject;
-
         public ModelClient<ProjectModel> SelectedProject
         {
             get => _selectedProject;
@@ -89,7 +92,6 @@ namespace TaskManager.Client.ViewModels
         }
 
         private List<UserModel> _projectUsers = new List<UserModel>();
-
         public List<UserModel> ProjectUsers
         {
             get => _projectUsers;
@@ -99,6 +101,24 @@ namespace TaskManager.Client.ViewModels
                 RaisePropertyChanged(nameof(ProjectUsers));
             }
         }
+
+        public List<UserModel> NewUsersForSelectedProject
+        {
+            get => _usersRequestService.GetAllUsers(_token).Where(user => ProjectUsers.Any(u => user.Id != user.Id)).ToList();
+        }
+
+        private List<UserModel> _selectedUsersForProject = new List<UserModel>();
+
+        public List<UserModel> SelectedUsersForProject
+        {
+            get => _selectedUsersForProject;
+            set 
+            { 
+                _selectedUsersForProject = value; 
+                RaisePropertyChanged(nameof(SelectedUsersForProject));
+            }
+        }
+
 
         #endregion
 
@@ -111,6 +131,7 @@ namespace TaskManager.Client.ViewModels
             var wnd = new CreateOrUpdateProjectWindow();
             _viewService.OpenWindow(wnd, this);
         }
+
         private void OpenUpdateProject(object projectId)
         {
             SelectedProject = GetProjectClientById(projectId);
@@ -120,6 +141,7 @@ namespace TaskManager.Client.ViewModels
             var wnd = new CreateOrUpdateProjectWindow();
             _viewService.OpenWindow(wnd, this);
         }
+
         private void ShowProjectInfo(object projectId)
         {
             SelectedProject = GetProjectClientById(projectId);
@@ -150,7 +172,6 @@ namespace TaskManager.Client.ViewModels
                 UpdateProject();
             }            
             UserProjects = GetProjectsToClient();
-            _viewService.CurrentOpenedWindow?.Close();
         }
 
         private void CreateProject()
@@ -175,6 +196,7 @@ namespace TaskManager.Client.ViewModels
 
         private List<ModelClient<ProjectModel>> GetProjectsToClient()
         {
+            _viewService.CurrentOpenedWindow?.Close();
             return _projectsRequestService.GetAllProjects(_token).Select(project => new ModelClient<ProjectModel>(project)).ToList();
         }
         
@@ -182,6 +204,20 @@ namespace TaskManager.Client.ViewModels
         {
             _viewService.SetPhotoForObject(SelectedProject.Model);
             SelectedProject = new ModelClient<ProjectModel>(SelectedProject.Model);
+        }
+
+        private void OpenNewUsersToProject()
+        {
+            var wmd = new AddUsersToProjectWindow();
+            _viewService.OpenWindow(wmd, this);
+        }
+
+        private void AddUsersToProject()
+        {
+            var resultaction = _projectsRequestService.AddUsersToProject(_token, SelectedProject.Model.Id, SelectedUsersForProject.Select(user => user.Id).ToList());
+            _viewService.ShowActionResult(resultaction, "New users added to project");
+
+            UserProjects = GetProjectsToClient(); 
         }
         #endregion
     }

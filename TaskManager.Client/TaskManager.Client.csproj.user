@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\AddWindows\AddUsersToProjectWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\AddWindows\CreateOrUpdateProjectWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Resources\Styles\MainStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddWindows\AddUsersToProjectWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddWindows\CreateOrUpdateProjectWindow.xaml">
