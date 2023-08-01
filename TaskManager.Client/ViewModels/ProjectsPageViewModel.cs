@@ -26,8 +26,9 @@ namespace TaskManager.Client.ViewModels
         public DelegateCommand CreateOrUpdateProjectCommand { get; private set; }
         public DelegateCommand DeleteProjectCommand { get; private set; }
         public DelegateCommand SelectPhotoForProjectCommand { get; private set; }
-        public DelegateCommand AddUsersToProjectCommand { get; private set; }
         public DelegateCommand OpenNewUsersToProjectCommand { get; private set; }
+        public DelegateCommand AddUsersToProjectCommand { get; private set; }
+        public DelegateCommand DeleteUserFromProjectCommand { get; private set; }
 
         #endregion
 
@@ -49,9 +50,15 @@ namespace TaskManager.Client.ViewModels
             SelectPhotoForProjectCommand = new DelegateCommand(SelectPhotoForProject);
             AddUsersToProjectCommand = new DelegateCommand(AddUsersToProject);
             OpenNewUsersToProjectCommand = new DelegateCommand(OpenNewUsersToProject);
+            DeleteUserFromProjectCommand = new DelegateCommand(DeleteUserFromProject);
         }
 
         #region PROPERTIES
+
+        public UserModel CurrentUser
+        {
+            get => _usersRequestService.GetCurrentUser(_token);
+        }
 
         private ClientAction _typeActionWithProject;
         public ClientAction TypeActionWithProject
@@ -212,8 +219,28 @@ namespace TaskManager.Client.ViewModels
 
         private void AddUsersToProject()
         {
+            if (SelectedUsersForProject == null || SelectedUsersForProject?.Count == 0)
+            {
+                _viewService.ShowMessage("No select users");
+                return;
+            }
+
             var resultaction = _projectsRequestService.AddUsersToProject(_token, SelectedProject.Model.Id, SelectedUsersForProject.Select(user => user.Id).ToList());
             _viewService.ShowActionResult(resultaction, "New users added to project");
+
+            UpdatePage();
+        }
+
+        private void DeleteUserFromProject()
+        {
+            if (SelectedUsersForProject == null || SelectedUsersForProject?.Count == 0)
+            {
+                _viewService.ShowMessage("No select user");
+                return;
+            }
+
+            var resultaction = _projectsRequestService.RemoveUsersFromProject(_token, SelectedProject.Model.Id, SelectedUsersForProject.Select(user => user.Id).ToList());
+            _viewService.ShowActionResult(resultaction, "User deleted from project");
 
             UpdatePage();
         }

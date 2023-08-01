@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskManager.Client.ViewModels;
+using TaskManager.Common.Models;
 
 namespace TaskManager.Client.Views.Pages
 {
@@ -23,6 +25,17 @@ namespace TaskManager.Client.Views.Pages
         public ProjectsPage()
         {
             InitializeComponent();
+        }
+
+        public void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var viewModel = (ProjectsPageViewModel)DataContext;
+
+            foreach (UserModel user in e.RemovedItems)
+                viewModel.SelectedUsersForProject.Remove(user);
+
+            foreach (UserModel user in e.AddedItems)
+                viewModel.SelectedUsersForProject.Add(user);
         }
     }
 }
