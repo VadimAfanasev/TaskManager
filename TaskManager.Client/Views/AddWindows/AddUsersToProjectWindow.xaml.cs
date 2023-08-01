@@ -25,7 +25,7 @@ namespace TaskManager.Client.Views.AddWindows
         {
             InitializeComponent();
         }
-        public void LisListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var viewModel = (ProjectsPageViewModel)DataContext;
 

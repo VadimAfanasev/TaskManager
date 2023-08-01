@@ -5,21 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.Client.Views.AddWindows"
         mc:Ignorable="d"
-        Title="AddUsersToProjectWindow" Height="450" Width="800">
+        Title="AddUsersToProjectWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding}"
+        <ListBox ItemsSource="{Binding NewUsersForSelectedProject}"
                  SelectionMode="Extended"
                  SelectionChanged="ListBox_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Path=Email}" Style="{StaticResource commonTBlock}"/>
+                        <TextBlock Text="  "/>
                         <TextBlock Text="{Binding Path=FirstName}" Style="{StaticResource commonTBlock}"/>
+                        <TextBlock Text="  "/>
                         <TextBlock Text="{Binding Path=LastName}" Style="{StaticResource commonTBlock}"/>
+                        <TextBlock Text="  "/>
                         <TextBlock Text="{Binding Path=Status}" Style="{StaticResource commonTBlock}"/>
                     </StackPanel>
                 </DataTemplate>

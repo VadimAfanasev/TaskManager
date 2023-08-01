@@ -39,7 +39,7 @@ namespace TaskManager.Client.ViewModels
 
             _token = token;
 
-            UserProjects = GetProjectsToClient();
+            UpdatePage();
 
             OpenNewProjectCommand = new DelegateCommand(OpenNewProject);
             OpenUpdateProjectCommand = new DelegateCommand<object>(OpenUpdateProject);
@@ -84,7 +84,7 @@ namespace TaskManager.Client.ViewModels
                 _selectedProject = value;
                 RaisePropertyChanged(nameof(SelectedProject));
 
-                if (SelectedProject.Model.AllUsersIds != null && SelectedProject.Model.AllUsersIds.Count > 0)
+                if (SelectedProject?.Model.AllUsersIds != null && SelectedProject?.Model.AllUsersIds.Count > 0)
                     ProjectUsers = SelectedProject.Model.AllUsersIds?.Select(userId => _usersRequestService.GetUserById(_token, userId)).ToList();
                 else
                     ProjectUsers = new List<UserModel>();
@@ -104,11 +104,10 @@ namespace TaskManager.Client.ViewModels
 
         public List<UserModel> NewUsersForSelectedProject
         {
-            get => _usersRequestService.GetAllUsers(_token).Where(user => ProjectUsers.Any(u => user.Id != user.Id)).ToList();
+            get => _usersRequestService.GetAllUsers(_token).Where(user => ProjectUsers.Any(u => u.Id == user.Id) == false).ToList();
         }
 
         private List<UserModel> _selectedUsersForProject = new List<UserModel>();
-
         public List<UserModel> SelectedUsersForProject
         {
             get => _selectedUsersForProject;
@@ -118,7 +117,6 @@ namespace TaskManager.Client.ViewModels
                 RaisePropertyChanged(nameof(SelectedUsersForProject));
             }
         }
-
 
         #endregion
 
@@ -170,8 +168,8 @@ namespace TaskManager.Client.ViewModels
             if (TypeActionWithProject == ClientAction.Update)
             {
                 UpdateProject();
-            }            
-            UserProjects = GetProjectsToClient();
+            }
+            UpdatePage();
         }
 
         private void CreateProject()
@@ -191,7 +189,7 @@ namespace TaskManager.Client.ViewModels
             var resultAction = _projectsRequestService.DeleteProject(_token, SelectedProject.Model.Id);
             _viewService.ShowActionResult(resultAction, "New project is deleted");
 
-            UserProjects = GetProjectsToClient();
+            UpdatePage();
         }
 
         private List<ModelClient<ProjectModel>> GetProjectsToClient()
@@ -217,7 +215,14 @@ namespace TaskManager.Client.ViewModels
             var resultaction = _projectsRequestService.AddUsersToProject(_token, SelectedProject.Model.Id, SelectedUsersForProject.Select(user => user.Id).ToList());
             _viewService.ShowActionResult(resultaction, "New users added to project");
 
-            UserProjects = GetProjectsToClient(); 
+            UpdatePage();
+        }
+
+        private void UpdatePage()
+        {
+            UserProjects = GetProjectsToClient();
+            SelectedProject = null;
+            SelectedUsersForProject = new List<UserModel>();
         }
         #endregion
     }
