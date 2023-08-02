@@ -53,11 +53,22 @@
                                             RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
                                             CommandParameter="{Binding Path=Model.Id}"
                                             Style="{StaticResource commonBtn}"/>
-                                    
+
                                     <Button Content="Edit" Command="{Binding Path=DataContext.OpenUpdateProjectCommand,
                                             RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                            CommandParameter="{Binding Path=Model.Id}"
-                                            Style="{StaticResource commonBtn}"/>
+                                            CommandParameter="{Binding Path=Model.Id}">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource commonBtn}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CurrentUser.Status}" Value="User">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                        <Setter Property="Height" Value="0"/>
+                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -79,7 +90,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>

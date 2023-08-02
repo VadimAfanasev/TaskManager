@@ -3,10 +3,10 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
 using TaskManager.Client.Views.AddWindows;
+using TaskManager.Client.Views.Pages;
 using TaskManager.Common.Models;
 
 namespace TaskManager.Client.ViewModels
@@ -17,6 +17,7 @@ namespace TaskManager.Client.ViewModels
         private UsersRequestService _usersRequestService;
         private ProjectsRequestService _projectsRequestService;
         private CommonViewService _viewService;
+        private MainWindowViewModel _mainWindowVM;
 
         #region COMMANDS
 
@@ -32,12 +33,12 @@ namespace TaskManager.Client.ViewModels
 
         #endregion
 
-        public ProjectsPageViewModel(AuthToken token)
+        public ProjectsPageViewModel(AuthToken token, MainWindowViewModel mainWindowVM)
         {
             _viewService = new CommonViewService();
             _usersRequestService = new UsersRequestService();
             _projectsRequestService = new ProjectsRequestService();
-
+            _mainWindowVM = mainWindowVM;
             _token = token;
 
             UpdatePage();
@@ -251,6 +252,16 @@ namespace TaskManager.Client.ViewModels
             SelectedProject = null;
             SelectedUsersForProject = new List<UserModel>();
         }
+
+        private void OpenProjectDeskPageCommand(object projectId)
+        {
+            if (projectId != null)
+            {
+                var page = new ProjectDesksPage();
+                _mainWindowVM.OpenPage(page, $"Desks of {SelectedProject.Model.Name}", new ProjectDesksPageViewModel(_token, SelectedProject.Model));
+            }
+        }
+
         #endregion
     }
 }
