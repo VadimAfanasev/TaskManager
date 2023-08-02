@@ -30,6 +30,7 @@ namespace TaskManager.Client.ViewModels
         public DelegateCommand OpenNewUsersToProjectCommand { get; private set; }
         public DelegateCommand AddUsersToProjectCommand { get; private set; }
         public DelegateCommand DeleteUserFromProjectCommand { get; private set; }
+        public DelegateCommand OpenProjectDeskPageCommand { get; private set; }
 
         #endregion
 
@@ -52,6 +53,7 @@ namespace TaskManager.Client.ViewModels
             AddUsersToProjectCommand = new DelegateCommand(AddUsersToProject);
             OpenNewUsersToProjectCommand = new DelegateCommand(OpenNewUsersToProject);
             DeleteUserFromProjectCommand = new DelegateCommand(DeleteUserFromProject);
+            OpenProjectDeskPageCommand = new DelegateCommand(OpenProjectDeskPage);
         }
 
         #region PROPERTIES
@@ -253,9 +255,9 @@ namespace TaskManager.Client.ViewModels
             SelectedUsersForProject = new List<UserModel>();
         }
 
-        private void OpenProjectDeskPageCommand(object projectId)
+        private void OpenProjectDeskPage()
         {
-            if (projectId != null)
+            if (SelectedProject?.Model != null)
             {
                 var page = new ProjectDesksPage();
                 _mainWindowVM.OpenPage(page, $"Desks of {SelectedProject.Model.Name}", new ProjectDesksPageViewModel(_token, SelectedProject.Model));

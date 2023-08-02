@@ -24,21 +24,31 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource deskPanelBorder}">
-                            <StackPanel Margin="10">
-
-                                <TextBlock Text="{Binding Path=Model.Name}"
+                            <Grid Margin="10" MinHeight="200">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding Path=Model.Name}"
+                                               TextWrapping="Wrap"
                                                Style="{StaticResource commonTBlock}"/>
-                                
-                                <TextBlock Text="{Binding Path=Model.Description}"
+                                    
+                                    <TextBlock Text=" "/>
+                                    
+                                    <TextBlock Text="{Binding Path=Model.Description}"
+                                               TextWrapping="Wrap"
                                                Style="{StaticResource commonTBlock}"/>
 
-                                <Image Source="{Binding Path=Image}" Width="100" Height="100"/>
+                                    <Image Source="{Binding Path=Image}" 
+                                           Width="100" Height="100"/>
+                                </StackPanel>
 
-                                <Button Content="Open" Command="{Binding Path=DataContext.ShowDeskTasksCommand,
+                                <Button Grid.Row="1" Content="Open" Command="{Binding Path=DataContext.ShowDeskTasksCommand,
                                             RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
                                             CommandParameter="{Binding Path=Model.Id}"
                                             Style="{StaticResource commonBtn}"/>
-                            </StackPanel>
+                            </Grid>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

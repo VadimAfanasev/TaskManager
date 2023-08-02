@@ -28,13 +28,15 @@ namespace TaskManager.Client.ViewModels
             _token = token;
             _project = project;
 
+            _desksRequestService = new DesksRequestService();
+
             ProjectDesks = GetDesks(_project.Id);
         }
 
         private AuthToken _token;
         private ProjectModel _project;
 
-        private List<ModelClient<DeskModel>> _projectDesks;
+        private List<ModelClient<DeskModel>> _projectDesks = new List<ModelClient<DeskModel>>();
 
         public List<ModelClient<DeskModel>> ProjectDesks
         {
@@ -48,7 +50,14 @@ namespace TaskManager.Client.ViewModels
 
         private List<ModelClient<DeskModel>> GetDesks(int projectId)
         {
-            return _desksRequestService.GetDeskByProject(_token, _project.Id).Select(d => new ModelClient<DeskModel>(d)).ToList();
+            var result = new List<ModelClient<DeskModel>>();
+            var desks = _desksRequestService.GetDeskByProject(_token, _project.Id);
+            if (desks != null)
+            {
+                result = desks.Select(d => new ModelClient<DeskModel>(d)).ToList();
+            }
+            return result;
+            
         }
 
     }

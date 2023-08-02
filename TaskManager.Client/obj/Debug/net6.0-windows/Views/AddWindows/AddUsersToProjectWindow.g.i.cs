@@ -53,8 +53,7 @@ namespace TaskManager.Client.Views.AddWindows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/TaskManager.Client;V1.0.0.0;component/views/addwindows/adduserstoprojectwindow.x" +
-                    "aml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/TaskManager.Client;component/views/addwindows/adduserstoprojectwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\AddWindows\AddUsersToProjectWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
