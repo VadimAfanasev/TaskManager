@@ -10,6 +10,9 @@
     <Compile Update="Views\AddWindows\AddUsersToProjectWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddWindows\CreateOrUpdateDeskWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\AddWindows\CreateOrUpdateProjectWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddWindows\AddUsersToProjectWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddWindows\CreateOrUpdateDeskWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddWindows\CreateOrUpdateProjectWindow.xaml">
