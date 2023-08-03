@@ -18,7 +18,7 @@ namespace TaskManager.Client.ViewModels
         private DesksRequestService _desksRequestService;
 
         #region COMMANDS
-
+        public DelegateCommand OpenNewDeskCommand { get; private set; }
 
 
         #endregion
@@ -31,7 +31,11 @@ namespace TaskManager.Client.ViewModels
             _desksRequestService = new DesksRequestService();
 
             ProjectDesks = GetDesks(_project.Id);
+
+            OpenNewDeskCommand = new DelegateCommand(OpenNewDesk);
         }
+
+        #region PROPERTIES
 
         private AuthToken _token;
         private ProjectModel _project;
@@ -48,6 +52,10 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+        #endregion
+
+        #region METHODS
+
         private List<ModelClient<DeskModel>> GetDesks(int projectId)
         {
             var result = new List<ModelClient<DeskModel>>();
@@ -59,6 +67,13 @@ namespace TaskManager.Client.ViewModels
             return result;
             
         }
+
+        private void OpenNewDesk()
+        {
+
+        }
+
+        #endregion
 
     }
 }

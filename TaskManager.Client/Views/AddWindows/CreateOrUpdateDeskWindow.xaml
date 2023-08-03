@@ -67,7 +67,8 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
-                    <Button Content="+" Command="{Binding AddNewColumnItemCommand}" Style="{StaticResource commonBtn}"/>
+                    <Button Content="+" Command="{Binding AddNewColumnItemCommand}" 
+                            Style="{StaticResource commonBtnGreen}"/>
                 </StackPanel>
                 
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="IsPrivate: "
