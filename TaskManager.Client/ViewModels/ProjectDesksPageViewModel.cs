@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
@@ -19,7 +20,6 @@ namespace TaskManager.Client.ViewModels
 
         #region COMMANDS
         public DelegateCommand OpenNewDeskCommand { get; private set; }
-        public DelegateCommand OpenNewProjectCommand { get; private set; }
         public DelegateCommand<object> OpenUpdateDeskCommand { get; private set; }
         public DelegateCommand CreateOrUpdateDeskCommand { get; private set; }
         public DelegateCommand DeleteDeskCommand { get; private set; }
@@ -39,6 +39,10 @@ namespace TaskManager.Client.ViewModels
             UpdatePage();
 
             OpenNewDeskCommand = new DelegateCommand(OpenNewDesk);
+            OpenUpdateDeskCommand = new DelegateCommand<object>(OpenUpdateDesk);
+            CreateOrUpdateDeskCommand = new DelegateCommand(CreateOrUpdateDesk);
+            DeleteDeskCommand = new DelegateCommand(DeleteDesk);
+            SelectPhotoForDeskCommand = new DelegateCommand(SelectPhotoForDesk);
         }
 
         #region PROPERTIES
@@ -80,6 +84,24 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+
+        private ObservableCollection<ColumnBindingHelp> _columnsForNewDesk = new ObservableCollection<ColumnBindingHelp>()
+        {
+            new ColumnBindingHelp("New"),
+            new ColumnBindingHelp("In progress"),
+            new ColumnBindingHelp("In review"),
+            new ColumnBindingHelp("Completed")
+        };
+        public ObservableCollection<ColumnBindingHelp> ColumnsForNewDesk
+        {
+            get => _columnsForNewDesk;
+            set 
+            { 
+                _columnsForNewDesk = value;
+                RaisePropertyChanged(nameof(_columnsForNewDesk));
+            }
+        }
+
         #endregion
 
         #region METHODS
@@ -104,9 +126,23 @@ namespace TaskManager.Client.ViewModels
 
         private void OpenNewDesk()
         {
+            SelectedDesk = new ModelClient<DeskModel>(new DeskModel());
+            TypeActionWithDesk = ClientAction.Create;
 
+            var wnd = new CreateOrUpdateDeskWindow();
+            _viewService.OpenWindow(wnd, this);
         }
 
+        private void OpenUpdateDesk(object deskId)
+        {
+            SelectedDesk = GetDeskClientById(deskId);
+
+            TypeActionWithDesk = ClientAction.Update;
+
+            var wnd = new CreateOrUpdateDeskWindow();
+            _viewService.OpenWindow(wnd, this);
+        }
+        
         private void CreateOrUpdateDesk()
         {
             if (TypeActionWithDesk == ClientAction.Create)
@@ -138,6 +174,26 @@ namespace TaskManager.Client.ViewModels
             _viewService.ShowActionResult(resultAction, "New desk is deleted");
 
             UpdatePage();
+        }
+
+        private ModelClient<DeskModel> GetDeskClientById(object deskId)
+        {
+            try
+            {
+                int id = (int)deskId;
+                DeskModel desk = _desksRequestService.GetDeskById(_token, id);
+                return new ModelClient<DeskModel>(desk);
+            }
+            catch (FormatException)
+            {
+                return new ModelClient<DeskModel>(null);
+            }
+        }
+
+        private void SelectPhotoForDesk()
+        {
+            _viewService.SetPhotoForObject(SelectedDesk.Model);
+            SelectedDesk = new ModelClient<DeskModel>(SelectedDesk.Model);
         }
 
         #endregion
