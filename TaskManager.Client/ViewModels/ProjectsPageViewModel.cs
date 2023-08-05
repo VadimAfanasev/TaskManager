@@ -20,7 +20,6 @@ namespace TaskManager.Client.ViewModels
         private MainWindowViewModel _mainWindowVM;
 
         #region COMMANDS
-
         public DelegateCommand OpenNewProjectCommand { get; private set; }
         public DelegateCommand<object> OpenUpdateProjectCommand { get; private set; }
         public DelegateCommand<object> ShowProjectInfoCommand { get; private set; }

@@ -54,8 +54,9 @@ public class Startup
                     ValidateIssuerSigningKey = true,
                 };
             });
-        services.AddControllers();
-        services.AddControllers().AddNewtonsoftJson();
+        // services.AddControllers();
+        services.AddControllers()
+                .AddNewtonsoftJson();
     }
 
 

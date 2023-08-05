@@ -44,3 +44,5 @@ E:\Программирование\Обучение\TaskManager\TaskManager.Cli
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\AddWindows\AddUsersToProjectWindow.baml
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Pages\ProjectDesksPage.g.cs
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Pages\ProjectDesksPage.baml
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\AddWindows\CreateOrUpdateDeskWindow.g.cs
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\AddWindows\CreateOrUpdateDeskWindow.baml

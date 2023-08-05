@@ -47,7 +47,7 @@ namespace TaskManager.Client.Services
             var result = SendDataByUrl(HttpMethod.Patch, _desksControllerUrl + $"/{desk.Id}", token, deskJson);
             return result;
         }
-        public HttpStatusCode DeleteDeskById(AuthToken token, int deskId)
+        public HttpStatusCode DeleteDesk(AuthToken token, int deskId)
         {
             var result = DeleteDataByUrl(_desksControllerUrl + $"/{deskId}", token);
             return result;

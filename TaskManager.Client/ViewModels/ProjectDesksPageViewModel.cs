@@ -19,6 +19,11 @@ namespace TaskManager.Client.ViewModels
 
         #region COMMANDS
         public DelegateCommand OpenNewDeskCommand { get; private set; }
+        public DelegateCommand OpenNewProjectCommand { get; private set; }
+        public DelegateCommand<object> OpenUpdateDeskCommand { get; private set; }
+        public DelegateCommand CreateOrUpdateDeskCommand { get; private set; }
+        public DelegateCommand DeleteDeskCommand { get; private set; }
+        public DelegateCommand SelectPhotoForDeskCommand { get; private set; }
 
 
         #endregion
@@ -28,9 +33,10 @@ namespace TaskManager.Client.ViewModels
             _token = token;
             _project = project;
 
+            _viewService = new CommonViewService();
             _desksRequestService = new DesksRequestService();
 
-            ProjectDesks = GetDesks(_project.Id);
+            UpdatePage();
 
             OpenNewDeskCommand = new DelegateCommand(OpenNewDesk);
         }
@@ -52,9 +58,37 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+        private ClientAction _typeActionWithDesk;
+        public ClientAction TypeActionWithDesk
+        {
+            get => _typeActionWithDesk;
+            set
+            {
+                _typeActionWithDesk = value;
+                RaisePropertyChanged(nameof(TypeActionWithDesk));
+            }
+        }
+
+        private ModelClient<DeskModel> _selectedDesk;
+        public ModelClient<DeskModel> SelectedDesk
+        {
+            get => _selectedDesk;
+            set
+            {
+                _selectedDesk = value;
+                RaisePropertyChanged(nameof(SelectedDesk));
+            }
+        }
+
         #endregion
 
         #region METHODS
+
+        private void UpdatePage()
+        {
+            SelectedDesk = null;
+            ProjectDesks = GetDesks(_project.Id);
+        }
 
         private List<ModelClient<DeskModel>> GetDesks(int projectId)
         {
@@ -71,6 +105,39 @@ namespace TaskManager.Client.ViewModels
         private void OpenNewDesk()
         {
 
+        }
+
+        private void CreateOrUpdateDesk()
+        {
+            if (TypeActionWithDesk == ClientAction.Create)
+            {
+                CreateDesk();
+            }
+            if (TypeActionWithDesk == ClientAction.Update)
+            {
+                UpdateDesk();
+            }
+            UpdatePage();
+        }
+
+        private void CreateDesk()
+        {
+            var resultAction = _desksRequestService.CreateDesk(_token, SelectedDesk.Model);
+            _viewService.ShowActionResult(resultAction, "New desk is created");
+        }
+
+        private void UpdateDesk()
+        {
+            var resultAction = _desksRequestService.UpdateDesk(_token, SelectedDesk.Model);
+            _viewService.ShowActionResult(resultAction, "New desk is updated");
+        }
+
+        private void DeleteDesk()
+        {
+            var resultAction = _desksRequestService.DeleteDesk(_token, SelectedDesk.Model.Id);
+            _viewService.ShowActionResult(resultAction, "New desk is deleted");
+
+            UpdatePage();
         }
 
         #endregion
