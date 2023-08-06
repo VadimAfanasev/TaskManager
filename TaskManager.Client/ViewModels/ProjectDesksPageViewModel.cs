@@ -102,10 +102,6 @@ namespace TaskManager.Client.ViewModels
             { 
                 _columnsForNewDesk = value;
                 RaisePropertyChanged(nameof(_columnsForNewDesk));
-                if (SelectedDesk != null && SelectedDesk.Model != null)
-                {
-                    SelectedDesk.Model.Columns = ColumnsForNewDesk.Select(c => c.Value).ToArray();
-                }
             }
         }
 
@@ -117,6 +113,7 @@ namespace TaskManager.Client.ViewModels
         {
             SelectedDesk = null;
             ProjectDesks = GetDesks(_project.Id);
+            _viewService.CurrentOpenedWindow?.Close();
         }
 
         private List<ModelClient<DeskModel>> GetDesks(int projectId)
@@ -165,6 +162,9 @@ namespace TaskManager.Client.ViewModels
 
         private void CreateDesk()
         {
+            SelectedDesk.Model.Columns = ColumnsForNewDesk.Select(c => c.Value).ToArray();
+            SelectedDesk.Model.ProjectId = _project.Id;
+
             var resultAction = _desksRequestService.CreateDesk(_token, SelectedDesk.Model);
             _viewService.ShowActionResult(resultAction, "New desk is created");
         }

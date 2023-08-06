@@ -60,7 +60,8 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBox Text="{Binding Value}" Width="150" Style="{StaticResource commonTBox}"/>
-                                        <Button Content="-" Command="{Binding RemoveColumnItemCommand}"
+                                        <Button Content="-" Command="{Binding Path=DataContext.RemoveColumnItemCommand, 
+                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                 CommandParameter="{Binding }"
                                                 Style="{StaticResource commonBtnRed}"/>
                                     </StackPanel>
@@ -76,7 +77,7 @@
                            Style="{StaticResource commonTBlock}" HorizontalAlignment="Right"/>
                 <CheckBox Grid.Row="4" Grid.Column="1" 
                           IsChecked="{Binding SelectedDesk.Model.IsPrivate}"
-                          />
+                          Style="{StaticResource commonCheckBox}"/>
             </Grid>
         </ScrollViewer>
         <Grid Grid.Row="2">
