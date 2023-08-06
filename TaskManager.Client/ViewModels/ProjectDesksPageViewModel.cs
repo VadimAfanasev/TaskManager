@@ -24,7 +24,8 @@ namespace TaskManager.Client.ViewModels
         public DelegateCommand CreateOrUpdateDeskCommand { get; private set; }
         public DelegateCommand DeleteDeskCommand { get; private set; }
         public DelegateCommand SelectPhotoForDeskCommand { get; private set; }
-
+        public DelegateCommand AddNewColumnItemCommand { get; private set; }
+        public DelegateCommand<object> RemoveColumnItemCommand { get; private set; }
 
         #endregion
 
@@ -43,6 +44,8 @@ namespace TaskManager.Client.ViewModels
             CreateOrUpdateDeskCommand = new DelegateCommand(CreateOrUpdateDesk);
             DeleteDeskCommand = new DelegateCommand(DeleteDesk);
             SelectPhotoForDeskCommand = new DelegateCommand(SelectPhotoForDesk);
+            AddNewColumnItemCommand = new DelegateCommand(AddNewColumnItem);
+            RemoveColumnItemCommand = new DelegateCommand<object>(RemoveColumnItem);
         }
 
         #region PROPERTIES
@@ -99,6 +102,10 @@ namespace TaskManager.Client.ViewModels
             { 
                 _columnsForNewDesk = value;
                 RaisePropertyChanged(nameof(_columnsForNewDesk));
+                if (SelectedDesk != null && SelectedDesk.Model != null)
+                {
+                    SelectedDesk.Model.Columns = ColumnsForNewDesk.Select(c => c.Value).ToArray();
+                }
             }
         }
 
@@ -176,6 +183,23 @@ namespace TaskManager.Client.ViewModels
             UpdatePage();
         }
 
+        private void SelectPhotoForDesk()
+        {
+            _viewService.SetPhotoForObject(SelectedDesk.Model);
+            SelectedDesk = new ModelClient<DeskModel>(SelectedDesk.Model);
+        }
+
+        private void AddNewColumnItem()
+        {
+            ColumnsForNewDesk.Add(new ColumnBindingHelp("Column"));
+        }
+
+        private void RemoveColumnItem(object item)
+        {
+            var itemToRemove = item as ColumnBindingHelp;
+            ColumnsForNewDesk.Remove(itemToRemove);
+        }
+
         private ModelClient<DeskModel> GetDeskClientById(object deskId)
         {
             try
@@ -190,11 +214,6 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
-        private void SelectPhotoForDesk()
-        {
-            _viewService.SetPhotoForObject(SelectedDesk.Model);
-            SelectedDesk = new ModelClient<DeskModel>(SelectedDesk.Model);
-        }
 
         #endregion
 

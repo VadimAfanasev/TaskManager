@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskManager.Client.Views.AddWindows"
         mc:Ignorable="d"
-        Title="CreateOrUpdateDeskWindow" Height="450" Width="350">
+        Title="CreateOrUpdateDeskWindow" Height="450" Width="350"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
