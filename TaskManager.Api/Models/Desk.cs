@@ -25,6 +25,7 @@ namespace TaskManager.Api.Models
             AdminId = deskModel.AdminId;
             IsPrivate = deskModel.IsPrivate;
             ProjectId = deskModel.ProjectId;
+            Photo = deskModel.Photo;
 
             if (deskModel.Columns.Any())
             {

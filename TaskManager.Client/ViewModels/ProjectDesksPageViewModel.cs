@@ -17,6 +17,7 @@ namespace TaskManager.Client.ViewModels
     {
         private CommonViewService _viewService;
         private DesksRequestService _desksRequestService;
+        private UsersRequestService _usersRequestService;
 
         #region COMMANDS
         public DelegateCommand OpenNewDeskCommand { get; private set; }
@@ -36,6 +37,7 @@ namespace TaskManager.Client.ViewModels
 
             _viewService = new CommonViewService();
             _desksRequestService = new DesksRequestService();
+            _usersRequestService = new UsersRequestService();
 
             UpdatePage();
 
@@ -49,6 +51,11 @@ namespace TaskManager.Client.ViewModels
         }
 
         #region PROPERTIES
+
+        public UserModel CurrentUser
+        {
+            get => _usersRequestService.GetCurrentUser(_token);
+        }
 
         private AuthToken _token;
         private ProjectModel _project;
