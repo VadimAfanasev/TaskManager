@@ -60,6 +60,9 @@
     <Page Update="Views\Pages\UserInfoPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\Pages\UserDesksPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Pages\UserTasksPage.xaml">
       <SubType>Designer</SubType>
     </Page>

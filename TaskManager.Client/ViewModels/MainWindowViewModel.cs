@@ -133,6 +133,7 @@ namespace TaskManager.Client.ViewModels
             var page = new UserInfoPage();
             OpenPage(page, _userInfoBtnName, this);
         }
+
         private void OpenProjectsPage()
         {
             var page = new ProjectsPage();
@@ -141,10 +142,9 @@ namespace TaskManager.Client.ViewModels
 
         private void OpenDeskPage()
         {
-            SelectedPageName = _userDesksBtnName;
-            _viewService.ShowMessage(_userDesksBtnName);
+            var page = new UserDesksPage();
+            OpenPage(page, _userDesksBtnName, new UserDesksPageViewModel(Token));
         }
-
 
         private void OpenTasksPage()
         {

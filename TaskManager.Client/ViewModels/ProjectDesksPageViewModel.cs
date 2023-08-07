@@ -147,6 +147,11 @@ namespace TaskManager.Client.ViewModels
         private void OpenUpdateDesk(object deskId)
         {
             SelectedDesk = GetDeskClientById(deskId);
+            if (CurrentUser.Id != SelectedDesk.Model.AdminId)
+            {
+                _viewService.ShowMessage("You are not admin");
+                return;
+            }
 
             TypeActionWithDesk = ClientAction.Update;
 
@@ -161,8 +166,8 @@ namespace TaskManager.Client.ViewModels
                 CreateDesk();
             }
             if (TypeActionWithDesk == ClientAction.Update)
-            {
-                UpdateDesk();
+            {                
+                    UpdateDesk();                
             }
             UpdatePage();
         }
