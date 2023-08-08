@@ -18,6 +18,7 @@ namespace TaskManager.Client.ViewModels
         private CommonViewService _viewService;
         private DesksRequestService _desksRequestService;
         private UsersRequestService _usersRequestService;
+        private DesksViewService _desksViewService;
 
         #region COMMANDS
         public DelegateCommand OpenNewDeskCommand { get; private set; }
@@ -38,6 +39,7 @@ namespace TaskManager.Client.ViewModels
             _viewService = new CommonViewService();
             _desksRequestService = new DesksRequestService();
             _usersRequestService = new UsersRequestService();
+            _desksViewService = new DesksViewService(_token, _desksRequestService);
 
             UpdatePage();
 
@@ -119,20 +121,8 @@ namespace TaskManager.Client.ViewModels
         private void UpdatePage()
         {
             SelectedDesk = null;
-            ProjectDesks = GetDesks(_project.Id);
+            ProjectDesks = _desksViewService.GetDesks(_project.Id);
             _viewService.CurrentOpenedWindow?.Close();
-        }
-
-        private List<ModelClient<DeskModel>> GetDesks(int projectId)
-        {
-            var result = new List<ModelClient<DeskModel>>();
-            var desks = _desksRequestService.GetDeskByProject(_token, _project.Id);
-            if (desks != null)
-            {
-                result = desks.Select(d => new ModelClient<DeskModel>(d)).ToList();
-            }
-            return result;
-            
         }
 
         private void OpenNewDesk()
@@ -146,7 +136,7 @@ namespace TaskManager.Client.ViewModels
 
         private void OpenUpdateDesk(object deskId)
         {
-            SelectedDesk = GetDeskClientById(deskId);
+            SelectedDesk = _desksViewService.GetDeskClientById(deskId);
             if (CurrentUser.Id != SelectedDesk.Model.AdminId)
             {
                 _viewService.ShowMessage("You are not admin");
@@ -211,21 +201,6 @@ namespace TaskManager.Client.ViewModels
             var itemToRemove = item as ColumnBindingHelp;
             ColumnsForNewDesk.Remove(itemToRemove);
         }
-
-        private ModelClient<DeskModel> GetDeskClientById(object deskId)
-        {
-            try
-            {
-                int id = (int)deskId;
-                DeskModel desk = _desksRequestService.GetDeskById(_token, id);
-                return new ModelClient<DeskModel>(desk);
-            }
-            catch (FormatException)
-            {
-                return new ModelClient<DeskModel>(null);
-            }
-        }
-
 
         #endregion
 
