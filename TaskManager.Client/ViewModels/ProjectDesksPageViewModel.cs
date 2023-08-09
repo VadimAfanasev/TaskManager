@@ -145,8 +145,7 @@ namespace TaskManager.Client.ViewModels
 
             TypeActionWithDesk = ClientAction.Update;
 
-            var wnd = new CreateOrUpdateDeskWindow();
-            _viewService.OpenWindow(wnd, this);
+            _desksViewService.OpenViewDeskInfo(deskId, this);
         }
         
         private void CreateOrUpdateDesk()
@@ -156,8 +155,8 @@ namespace TaskManager.Client.ViewModels
                 CreateDesk();
             }
             if (TypeActionWithDesk == ClientAction.Update)
-            {                
-                    UpdateDesk();                
+            {
+                _desksViewService.UpdateDesk(SelectedDesk.Model);                
             }
             UpdatePage();
         }
@@ -171,16 +170,9 @@ namespace TaskManager.Client.ViewModels
             _viewService.ShowActionResult(resultAction, "New desk is created");
         }
 
-        private void UpdateDesk()
-        {
-            var resultAction = _desksRequestService.UpdateDesk(_token, SelectedDesk.Model);
-            _viewService.ShowActionResult(resultAction, "New desk is updated");
-        }
-
         private void DeleteDesk()
         {
-            var resultAction = _desksRequestService.DeleteDesk(_token, SelectedDesk.Model.Id);
-            _viewService.ShowActionResult(resultAction, "New desk is deleted");
+            _desksViewService.DeleteDesk(SelectedDesk.Model.Id);
 
             UpdatePage();
         }

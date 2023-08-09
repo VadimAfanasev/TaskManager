@@ -1,21 +1,26 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskManager.Client.Models;
+using TaskManager.Client.Views.AddWindows;
 using TaskManager.Common.Models;
 
 namespace TaskManager.Client.Services
 {
     internal class DesksViewService
     {
-        AuthToken _token;
-        DesksRequestService _desksRequestService;
+        private AuthToken _token;
+        private DesksRequestService _desksRequestService;
+        private CommonViewService _viewService;
+
         public DesksViewService(AuthToken authToken, DesksRequestService desksRequestService) 
         {
             _token = authToken;
             _desksRequestService = desksRequestService;
+            _viewService = new CommonViewService();
         }
 
         public ModelClient<DeskModel> GetDeskClientById(object deskId)
@@ -42,6 +47,30 @@ namespace TaskManager.Client.Services
             }
             return result;
 
+        }
+
+        public void OpenViewDeskInfo(object deskId, BindableBase context)
+        {
+            var wnd = new CreateOrUpdateDeskWindow();
+            _viewService.OpenWindow(wnd, context);
+        }
+
+        public void UpdateDesk(DeskModel desk)
+        {
+            var resultAction = _desksRequestService.UpdateDesk(_token, desk);
+            _viewService.ShowActionResult(resultAction, "New desk is updated");
+        }
+
+        public void DeleteDesk(int deskId)
+        {
+            var resultAction = _desksRequestService.DeleteDesk(_token, deskId);
+            _viewService.ShowActionResult(resultAction, "New desk is deleted");
+        }
+
+        private void SelectPhotoForDesk(ModelClient<DeskModel> selectedDesk)
+        {
+            _viewService.SetPhotoForObject(selectedDesk.Model);
+            selectedDesk = new ModelClient<DeskModel>(selectedDesk.Model);
         }
 
     }

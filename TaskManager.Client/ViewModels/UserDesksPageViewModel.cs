@@ -18,10 +18,16 @@ namespace TaskManager.Client.ViewModels
         private AuthToken _token;
         private DesksRequestService _desksRequestService;
         private UsersRequestService _usersRequestService;
+        private DesksViewService _desksViewService;
 
         #region COMMANDS
 
         public DelegateCommand OpenEditDeskCommand { get; private set; }
+        public DelegateCommand CreateOrUpdateDeskCommand { get; private set; }
+        public DelegateCommand DeleteDeskCommand { get; private set; }
+        public DelegateCommand SelectPhotoForDeskCommand { get; private set; }
+        public DelegateCommand AddNewColumnItemCommand { get; private set; }
+        public DelegateCommand<object> RemoveColumnItemCommand { get; private set; }
 
 
         #endregion
@@ -31,8 +37,11 @@ namespace TaskManager.Client.ViewModels
             _token = token;
             _desksRequestService = new DesksRequestService();
             _usersRequestService = new UsersRequestService();
+            _desksViewService = new DesksViewService(_token, _desksRequestService);
 
-            OpenEditDeskCommand = new DelegateCommand(OpenEditDesk);
+            OpenEditDeskCommand = new DelegateCommand(OpenUpdateDesk);
+            CreateOrUpdateDeskCommand = new DelegateCommand(UpdateDesk);
+            SelectPhotoForDeskCommand = new DelegateCommand(SelectPhotoForDesk);
 
             ContextMenuCommands.Add("Edit", OpenEditDeskCommand);
         }
@@ -65,26 +74,23 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
-
         #endregion
 
 
         #region METHODS
 
-        //private void OpenEditDesk(object deskId)
-        //{
-        //    SelectedDesk = GetDeskClientById(deskId);
-        //    if (CurrentUser.Id != SelectedDesk.Model.AdminId)
-        //    {
-        //        _viewService.ShowMessage("You are not admin");
-        //        return;
-        //    }
+        private void OpenUpdateDesk()
+        {
+            SelectedDesk = _desksViewService.GetDeskClientById(SelectedDesk.Model.Id);
+            _desksViewService.OpenViewDeskInfo(SelectedDesk.Model.Id, this);
+        }
 
-        //    TypeActionWithDesk = ClientAction.Update;
+        private void UpdateDesk()
+        {
+            _desksViewService.UpdateDesk(SelectedDesk.Model);
+        }
 
-        //    var wnd = new CreateOrUpdateDeskWindow();
-        //    _viewService.OpenWindow(wnd, this);
-        //}
+        
 
         #endregion
 
