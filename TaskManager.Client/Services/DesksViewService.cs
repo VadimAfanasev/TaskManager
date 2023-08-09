@@ -67,7 +67,7 @@ namespace TaskManager.Client.Services
             _viewService.ShowActionResult(resultAction, "New desk is deleted");
         }
 
-        private void SelectPhotoForDesk(ModelClient<DeskModel> selectedDesk)
+        public void SelectPhotoForDesk(ModelClient<DeskModel> selectedDesk)
         {
             _viewService.SetPhotoForObject(selectedDesk.Model);
             selectedDesk = new ModelClient<DeskModel>(selectedDesk.Model);

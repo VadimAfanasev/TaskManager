@@ -12,10 +12,10 @@
         <ListView ItemsSource="{Binding AllDesks}" SelectedItem="{Binding SelectedDesk}"
                   SelectionMode="Single">
             <ListView.ContextMenu>
-                <ContextMenu ItemsSource="{Binding}">
+                <ContextMenu ItemsSource="{Binding ContextMenuCommands}">
                     <ContextMenu.ItemTemplate>
                         <DataTemplate>
-                            <MenuItem Header="{Binding }" Command="{Binding }"/>
+                            <MenuItem Header="{Binding Key}" Command="{Binding Value}"/>
                         </DataTemplate>
                     </ContextMenu.ItemTemplate>
                 </ContextMenu>

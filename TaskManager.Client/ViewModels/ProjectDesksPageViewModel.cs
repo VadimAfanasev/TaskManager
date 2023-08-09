@@ -48,6 +48,7 @@ namespace TaskManager.Client.ViewModels
             CreateOrUpdateDeskCommand = new DelegateCommand(CreateOrUpdateDesk);
             DeleteDeskCommand = new DelegateCommand(DeleteDesk);
             SelectPhotoForDeskCommand = new DelegateCommand(SelectPhotoForDesk);
+
             AddNewColumnItemCommand = new DelegateCommand(AddNewColumnItem);
             RemoveColumnItemCommand = new DelegateCommand<object>(RemoveColumnItem);
         }
@@ -179,8 +180,7 @@ namespace TaskManager.Client.ViewModels
 
         private void SelectPhotoForDesk()
         {
-            _viewService.SetPhotoForObject(SelectedDesk.Model);
-            SelectedDesk = new ModelClient<DeskModel>(SelectedDesk.Model);
+            _desksViewService.SelectPhotoForDesk(SelectedDesk);
         }
 
         private void AddNewColumnItem()

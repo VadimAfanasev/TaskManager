@@ -41,9 +41,11 @@ namespace TaskManager.Client.ViewModels
 
             OpenEditDeskCommand = new DelegateCommand(OpenUpdateDesk);
             CreateOrUpdateDeskCommand = new DelegateCommand(UpdateDesk);
+            DeleteDeskCommand = new DelegateCommand(DeleteDesk);
             SelectPhotoForDeskCommand = new DelegateCommand(SelectPhotoForDesk);
 
             ContextMenuCommands.Add("Edit", OpenEditDeskCommand);
+            ContextMenuCommands.Add("Delete", DeleteDeskCommand);
         }
 
         #region PROPERTIES
@@ -90,7 +92,17 @@ namespace TaskManager.Client.ViewModels
             _desksViewService.UpdateDesk(SelectedDesk.Model);
         }
 
-        
+        private void DeleteDesk()
+        {
+            _desksViewService.DeleteDesk(SelectedDesk.Model.Id);
+        }
+
+        private void SelectPhotoForDesk()
+        {
+            _desksViewService.SelectPhotoForDesk(SelectedDesk);
+        }
+
+
 
         #endregion
 
