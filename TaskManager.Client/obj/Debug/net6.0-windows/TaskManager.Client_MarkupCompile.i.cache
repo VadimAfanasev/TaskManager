@@ -16,5 +16,5 @@ E:\Программирование\Обучение\TaskManager\TaskManager.Cli
 201-541899306
 Resources\Styles\MainStyle.xaml;Views\AddWindows\AddUsersToProjectWindow.xaml;Views\AddWindows\CreateOrUpdateDeskWindow.xaml;Views\AddWindows\CreateOrUpdateProjectWindow.xaml;Views\Login.xaml;Views\MainWindow.xaml;Views\Pages\ProjectDesksPage.xaml;Views\Pages\ProjectsPage.xaml;Views\Pages\UserDesksPage.xaml;Views\Pages\UserInfoPage.xaml;Views\Pages\UserTasksPage.xaml;
 
-False
+True
 

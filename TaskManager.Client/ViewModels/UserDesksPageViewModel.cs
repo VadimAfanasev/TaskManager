@@ -47,8 +47,12 @@ namespace TaskManager.Client.ViewModels
             DeleteDeskCommand = new DelegateCommand(DeleteDesk);
             SelectPhotoForDeskCommand = new DelegateCommand(SelectPhotoForDesk);
 
+            AddNewColumnItemCommand = new DelegateCommand(AddNewColumnItem);
+            RemoveColumnItemCommand = new DelegateCommand<object>(RemoveColumnItem);
+
             ContextMenuCommands.Add("Edit", OpenEditDeskCommand);
             ContextMenuCommands.Add("Delete", DeleteDeskCommand);
+
         }
 
         #region PROPERTIES
@@ -110,6 +114,7 @@ namespace TaskManager.Client.ViewModels
 
         private void UpdateDesk()
         {
+            SelectedDesk.Model.Columns = ColumnsForNewDesk.Select(c => c.Value).ToArray();
             _desksViewService.UpdateDesk(SelectedDesk.Model);
             UpdatePage();
         }
@@ -130,6 +135,17 @@ namespace TaskManager.Client.ViewModels
             SelectedDesk = null;
             AllDesks = _desksViewService.GetAllDesks();
             _viewService.CurrentOpenedWindow?.Close();
+        }
+
+        private void AddNewColumnItem()
+        {
+            ColumnsForNewDesk.Add(new ColumnBindingHelp("Column"));
+        }
+
+        private void RemoveColumnItem(object item)
+        {
+            var itemToRemove = item as ColumnBindingHelp;
+            ColumnsForNewDesk.Remove(itemToRemove);
         }
 
         #endregion

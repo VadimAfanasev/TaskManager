@@ -157,7 +157,7 @@ namespace TaskManager.Client.ViewModels
             }
             if (TypeActionWithDesk == ClientAction.Update)
             {
-                _desksViewService.UpdateDesk(SelectedDesk.Model);                
+                UpdateDesk();
             }
             UpdatePage();
         }
@@ -169,6 +169,12 @@ namespace TaskManager.Client.ViewModels
 
             var resultAction = _desksRequestService.CreateDesk(_token, SelectedDesk.Model);
             _viewService.ShowActionResult(resultAction, "New desk is created");
+        }
+
+        private void UpdateDesk()
+        {
+            SelectedDesk.Model.Columns = ColumnsForNewDesk.Select(c => c.Value).ToArray();
+            _desksViewService.UpdateDesk(SelectedDesk.Model);
         }
 
         private void DeleteDesk()

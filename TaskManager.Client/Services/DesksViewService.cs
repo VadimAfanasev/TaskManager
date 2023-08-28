@@ -79,9 +79,11 @@ namespace TaskManager.Client.Services
 
         public void SelectPhotoForDesk(ModelClient<DeskModel> selectedDesk)
         {
-            _viewService.SetPhotoForObject(selectedDesk.Model);
-            selectedDesk = new ModelClient<DeskModel>(selectedDesk.Model);
+            if (selectedDesk?.Model != null)
+            {
+                _viewService.SetPhotoForObject(selectedDesk.Model);
+                selectedDesk = new ModelClient<DeskModel>(selectedDesk.Model);
+            }
         }
-
     }
 }
