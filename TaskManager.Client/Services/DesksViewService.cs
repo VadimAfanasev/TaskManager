@@ -46,7 +46,17 @@ namespace TaskManager.Client.Services
                 result = desks.Select(d => new ModelClient<DeskModel>(d)).ToList();
             }
             return result;
+        }
 
+        public List<ModelClient<DeskModel>> GetAllDesks()
+        {
+            var result = new List<ModelClient<DeskModel>>();
+            var desks = _desksRequestService.GetAllDesks(_token);
+            if (desks != null)
+            {
+                result = desks.Select(d => new ModelClient<DeskModel>(d)).ToList();
+            }
+            return result;
         }
 
         public void OpenViewDeskInfo(object deskId, BindableBase context)

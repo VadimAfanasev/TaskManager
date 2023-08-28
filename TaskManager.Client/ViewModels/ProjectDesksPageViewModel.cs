@@ -145,7 +145,7 @@ namespace TaskManager.Client.ViewModels
             }
 
             TypeActionWithDesk = ClientAction.Update;
-
+            ColumnsForNewDesk = new ObservableCollection<ColumnBindingHelp>(SelectedDesk.Model.Columns.Select(c => new ColumnBindingHelp(c)));
             _desksViewService.OpenViewDeskInfo(deskId, this);
         }
         

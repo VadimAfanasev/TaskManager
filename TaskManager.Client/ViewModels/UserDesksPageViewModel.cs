@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace TaskManager.Client.ViewModels
     class UserDesksPageViewModel : BindableBase
     {
         private AuthToken _token;
+        private CommonViewService _viewService;
         private DesksRequestService _desksRequestService;
         private UsersRequestService _usersRequestService;
         private DesksViewService _desksViewService;
@@ -35,6 +37,7 @@ namespace TaskManager.Client.ViewModels
         public UserDesksPageViewModel(AuthToken token) 
         {
             _token = token;
+            _viewService = new CommonViewService();
             _desksRequestService = new DesksRequestService();
             _usersRequestService = new UsersRequestService();
             _desksViewService = new DesksViewService(_token, _desksRequestService);
@@ -49,9 +52,15 @@ namespace TaskManager.Client.ViewModels
         }
 
         #region PROPERTIES
+        private List<ModelClient<DeskModel>> _allDesks = new List<ModelClient<DeskModel>>();
         public List<ModelClient<DeskModel>> AllDesks
         {
-            get => _desksRequestService.GetAllDesks(_token).Select(desk => new ModelClient<DeskModel>(desk)).ToList();
+            get => _allDesks;
+            set
+            {
+                _allDesks = value;
+                RaisePropertyChanged(nameof(AllDesks));
+            }
         }
 
         private ModelClient<DeskModel> _selectedDesk;
@@ -76,6 +85,17 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+        private ObservableCollection<ColumnBindingHelp> _columnsForNewDesk;
+        public ObservableCollection<ColumnBindingHelp> ColumnsForNewDesk
+        {
+            get => _columnsForNewDesk;
+            set
+            {
+                _columnsForNewDesk = value;
+                RaisePropertyChanged(nameof(_columnsForNewDesk));
+            }
+        }
+
         #endregion
 
 
@@ -84,17 +104,20 @@ namespace TaskManager.Client.ViewModels
         private void OpenUpdateDesk()
         {
             SelectedDesk = _desksViewService.GetDeskClientById(SelectedDesk.Model.Id);
+            ColumnsForNewDesk = new ObservableCollection<ColumnBindingHelp>(SelectedDesk.Model.Columns.Select(c => new ColumnBindingHelp(c)));
             _desksViewService.OpenViewDeskInfo(SelectedDesk.Model.Id, this);
         }
 
         private void UpdateDesk()
         {
             _desksViewService.UpdateDesk(SelectedDesk.Model);
+            UpdatePage();
         }
 
         private void DeleteDesk()
         {
             _desksViewService.DeleteDesk(SelectedDesk.Model.Id);
+            UpdatePage();
         }
 
         private void SelectPhotoForDesk()
@@ -102,12 +125,13 @@ namespace TaskManager.Client.ViewModels
             _desksViewService.SelectPhotoForDesk(SelectedDesk);
         }
 
-
+        private void UpdatePage()
+        {
+            SelectedDesk = null;
+            AllDesks = _desksViewService.GetAllDesks();
+            _viewService.CurrentOpenedWindow?.Close();
+        }
 
         #endregion
-
-
-
-
     }
 }
