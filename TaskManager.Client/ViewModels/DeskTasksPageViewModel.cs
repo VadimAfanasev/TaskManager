@@ -17,9 +17,9 @@ namespace TaskManager.Client.ViewModels
         private UsersRequestService _usersRequestService;
         private TasksRequestService _tasksRequestService;
         private CommonViewService _viewService;
-        private MainWindowViewModel _mainWindowVM;
+        
 
-        public DeskTasksPageViewModel(AuthToken token, DeskModel desk, MainWindowViewModel mainWindowVM)
+        public DeskTasksPageViewModel(AuthToken token, DeskModel desk)
         {
             _token = token;
             _desk = desk;
@@ -27,7 +27,6 @@ namespace TaskManager.Client.ViewModels
             _viewService = new CommonViewService();
             _usersRequestService = new UsersRequestService();
             _tasksRequestService = new TasksRequestService();
-            _mainWindowVM = mainWindowVM;
 
             TasksByColumns = GetTasksByColumns(_desk.Id);
         }

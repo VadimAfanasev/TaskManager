@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DryIoc;
+using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -29,6 +30,7 @@ namespace TaskManager.Client.ViewModels
         public DelegateCommand SelectPhotoForDeskCommand { get; private set; }
         public DelegateCommand AddNewColumnItemCommand { get; private set; }
         public DelegateCommand<object> RemoveColumnItemCommand { get; private set; }
+        public DelegateCommand<object> OpenDeskTasksPageCommand { get; private set; }
 
         #endregion
 
@@ -53,6 +55,8 @@ namespace TaskManager.Client.ViewModels
 
             AddNewColumnItemCommand = new DelegateCommand(AddNewColumnItem);
             RemoveColumnItemCommand = new DelegateCommand<object>(RemoveColumnItem);
+            OpenDeskTasksPageCommand = new DelegateCommand<object>(OpenDeskTasksPage);
+
         }
 
         #region PROPERTIES
@@ -202,9 +206,12 @@ namespace TaskManager.Client.ViewModels
             ColumnsForNewDesk.Remove(itemToRemove);
         }
 
-        private void OpenDeskTasksPage()
+        private void OpenDeskTasksPage(object deskId)
         {
-
+            SelectedDesk = _desksViewService.GetDeskClientById(deskId);
+            var page = new DeskTasksPage();
+            var context = new DeskTasksPageViewModel(_token, SelectedDesk.Model);
+            _mainWindowVM.OpenPage(page, $"Tasks of {SelectedDesk.Model.Name}", context);
         }
         #endregion
 

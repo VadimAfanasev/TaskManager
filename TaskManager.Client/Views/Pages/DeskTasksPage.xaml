@@ -9,6 +9,18 @@
       Title="DeskTasksPage">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Content="New Task" Command="{Binding OpenNewTaskWindowCommand}"
+                Style="{StaticResource commonBtn}"/>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding TasksByColumns}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Key}" Style="{StaticResource headerTBlock}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Page>
