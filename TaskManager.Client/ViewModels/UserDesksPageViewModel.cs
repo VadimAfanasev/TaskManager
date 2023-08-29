@@ -127,7 +127,7 @@ namespace TaskManager.Client.ViewModels
 
         private void SelectPhotoForDesk()
         {
-            _desksViewService.SelectPhotoForDesk(SelectedDesk);
+            SelectedDesk = _desksViewService.SelectPhotoForDesk(SelectedDesk);
         }
 
         private void UpdatePage()

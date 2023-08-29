@@ -19,6 +19,7 @@ namespace TaskManager.Client.ViewModels
         private DesksRequestService _desksRequestService;
         private UsersRequestService _usersRequestService;
         private DesksViewService _desksViewService;
+        private MainWindowViewModel _mainWindowVM;
 
         #region COMMANDS
         public DelegateCommand OpenNewDeskCommand { get; private set; }
@@ -31,10 +32,11 @@ namespace TaskManager.Client.ViewModels
 
         #endregion
 
-        public ProjectDesksPageViewModel(AuthToken token, ProjectModel project)
+        public ProjectDesksPageViewModel(AuthToken token, ProjectModel project, MainWindowViewModel mainWindowVM)
         {
             _token = token;
             _project = project;
+            _mainWindowVM = mainWindowVM;
 
             _viewService = new CommonViewService();
             _desksRequestService = new DesksRequestService();
@@ -186,7 +188,7 @@ namespace TaskManager.Client.ViewModels
 
         private void SelectPhotoForDesk()
         {
-            _desksViewService.SelectPhotoForDesk(SelectedDesk);
+            SelectedDesk = _desksViewService.SelectPhotoForDesk(SelectedDesk);
         }
 
         private void AddNewColumnItem()
@@ -200,6 +202,10 @@ namespace TaskManager.Client.ViewModels
             ColumnsForNewDesk.Remove(itemToRemove);
         }
 
+        private void OpenDeskTasksPage()
+        {
+
+        }
         #endregion
 
     }
