@@ -16,6 +16,9 @@
     <Compile Update="Views\AddWindows\CreateOrUpdateProjectWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddWindows\CreateOrUpdateTaskWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Components\TaskControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -49,6 +52,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddWindows\CreateOrUpdateProjectWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddWindows\CreateOrUpdateTaskWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Components\TaskControl.xaml">
