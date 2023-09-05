@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
+using TaskManager.Client.Views.Components;
 using TaskManager.Client.Views.Pages;
 using TaskManager.Common.Models;
 
@@ -97,6 +98,21 @@ namespace TaskManager.Client.ViewModels
                 Grid.SetColumn(header, columnCount);
 
                 grid.Children.Add(header);
+
+                //column
+                ItemsControl columnControl = new ItemsControl();
+                Grid.SetRow(columnControl, 1);
+                Grid.SetColumn(columnControl, columnCount);
+
+                var taskViews = new List<TaskControl>();
+
+                foreach (var task in column.Value)
+                {
+                    var taskView = new TaskControl(task);
+                    taskViews.Add(taskView);
+                }
+                columnControl.ItemsSource = taskViews;
+                grid.Children.Add(columnControl);
 
                 columnCount++;
             }

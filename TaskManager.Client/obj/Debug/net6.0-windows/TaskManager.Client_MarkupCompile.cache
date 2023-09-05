@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\App.xaml
-12-1801246870
+13-1843125663
 
-34-2140357943
+35-290164717
 201-541899306
-Resources\Styles\MainStyle.xaml;Views\AddWindows\AddUsersToProjectWindow.xaml;Views\AddWindows\CreateOrUpdateDeskWindow.xaml;Views\AddWindows\CreateOrUpdateProjectWindow.xaml;Views\Login.xaml;Views\MainWindow.xaml;Views\Pages\DeskTasksPage.xaml;Views\Pages\ProjectDesksPage.xaml;Views\Pages\ProjectsPage.xaml;Views\Pages\UserDesksPage.xaml;Views\Pages\UserInfoPage.xaml;Views\Pages\UserTasksPage.xaml;
+Resources\Styles\MainStyle.xaml;Views\AddWindows\AddUsersToProjectWindow.xaml;Views\AddWindows\CreateOrUpdateDeskWindow.xaml;Views\AddWindows\CreateOrUpdateProjectWindow.xaml;Views\Components\TaskControl.xaml;Views\Login.xaml;Views\MainWindow.xaml;Views\Pages\DeskTasksPage.xaml;Views\Pages\ProjectDesksPage.xaml;Views\Pages\ProjectsPage.xaml;Views\Pages\UserDesksPage.xaml;Views\Pages\UserInfoPage.xaml;Views\Pages\UserTasksPage.xaml;
 
 False
 

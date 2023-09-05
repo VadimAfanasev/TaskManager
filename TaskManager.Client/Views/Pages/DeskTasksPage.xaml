@@ -16,6 +16,5 @@
         <Button Content="New Task" Command="{Binding OpenNewTaskWindowCommand}"
                 Style="{StaticResource commonBtn}"/>
         <Grid Grid.Row="1" x:Name="tasksGrid"/>
-
     </Grid>
 </Page>

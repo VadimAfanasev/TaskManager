@@ -50,3 +50,5 @@ E:\Программирование\Обучение\TaskManager\TaskManager.Cli
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Pages\UserDesksPage.baml
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Pages\DeskTasksPage.g.cs
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Pages\DeskTasksPage.baml
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Components\TaskControl.g.cs
+E:\Программирование\Обучение\TaskManager\TaskManager.Client\obj\Debug\net6.0-windows\Views\Components\TaskControl.baml
