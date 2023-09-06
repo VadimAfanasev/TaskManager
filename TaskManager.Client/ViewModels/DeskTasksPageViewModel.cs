@@ -224,6 +224,7 @@ namespace TaskManager.Client.ViewModels
 
                 //column
                 ItemsControl columnControl = new ItemsControl();
+                columnControl.Style = resource["tasksColumnPanel"] as Style;
                 Grid.SetRow(columnControl, 1);
                 Grid.SetColumn(columnControl, columnCount);
 
