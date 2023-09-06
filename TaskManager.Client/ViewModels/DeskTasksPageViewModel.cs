@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace TaskManager.Client.ViewModels
 
         private DeskTasksPage _page;
 
+        public DelegateCommand OpenNewTaskCommand { get; private set; }
+        public DelegateCommand OpenUpdateTaskCommand { get; private set; }
+        public DelegateCommand CreateOrUpdateTaskCommand { get; private set; }
+        public DelegateCommand DeleteTaskCommand { get; private set; }
+
         public DeskTasksPageViewModel(AuthToken token, DeskModel desk, DeskTasksPage page)
         {
             _token = token;
@@ -37,6 +43,11 @@ namespace TaskManager.Client.ViewModels
 
             TasksByColumns = GetTasksByColumns(_desk.Id);
             _page.TasksGrid.Children.Add(CreateTasksGrid());
+
+            OpenNewTaskCommand = new DelegateCommand(OpenNewTask);
+            OpenUpdateTaskCommand = new DelegateCommand(OpenUpdateTask);
+            CreateOrUpdateTaskCommand = new DelegateCommand(CreateOrUpdateTask);
+            DeleteTaskCommand = new DelegateCommand(DeleteTask);
         }
 
         #region PROPERTIES
@@ -93,7 +104,7 @@ namespace TaskManager.Client.ViewModels
             return tasksByColumns;
         }
 
-        private void CreateOrUpdateDesk()
+        private void CreateOrUpdateTask()
         {
             if (TypeActionWithTask == ClientAction.Create)
             {
@@ -108,7 +119,9 @@ namespace TaskManager.Client.ViewModels
 
         private void CreateTask()
         {
+            
             SelectedTask.Model.DeskId = _desk.Id;
+            SelectedTask.Model.Column = _desk.Columns.FirstOrDefault();
 
             var resultAction = _tasksRequestService.CreateTask(_token, SelectedTask.Model);
             _viewService.ShowActionResult(resultAction, "New project is created");
@@ -134,9 +147,10 @@ namespace TaskManager.Client.ViewModels
             _viewService.CurrentOpenedWindow?.Close();
         }
 
-        private void OpenCreateTask()
+        private void OpenNewTask()
         {
             TypeActionWithTask = ClientAction.Create;
+            SelectedTask = new TaskClient(new TaskModel());
             var wnd = new CreateOrUpdateTaskWindow();
             _viewService.OpenWindow(wnd, this);
         }
