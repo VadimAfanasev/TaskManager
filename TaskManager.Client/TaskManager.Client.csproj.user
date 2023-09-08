@@ -19,6 +19,9 @@
     <Compile Update="Views\AddWindows\CreateOrUpdateTaskWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddWindows\UsersFromExcelWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Components\TaskControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -35,6 +38,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\UserInfoPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\UsersPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\UserTasksPage.xaml.cs">
@@ -55,6 +61,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddWindows\CreateOrUpdateTaskWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddWindows\UsersFromExcelWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Components\TaskControl.xaml">
@@ -79,6 +88,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\UserDesksPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Pages\UsersPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\UserTasksPage.xaml">

@@ -53,7 +53,7 @@ namespace TaskManager.Client.Views.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/TaskManager.Client;component/views/pages/userdeskspage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/TaskManager.Client;V1.0.0.0;component/views/pages/userdeskspage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Views\Pages\UserDesksPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
