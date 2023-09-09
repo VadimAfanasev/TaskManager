@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
+using TaskManager.Client.Views.AddWindows;
 using TaskManager.Common.Models;
 
 namespace TaskManager.Client.ViewModels
@@ -49,9 +50,15 @@ namespace TaskManager.Client.ViewModels
 
         #region PROPERTIES
 
+        private List<UserModel> _allUsers = new List<UserModel>();
         public List<UserModel> AllUsers
         {
-            get => _usersRequestService.GetAllUsers(_token);
+            get => _allUsers;
+            set
+            {
+                _allUsers = value;
+                RaisePropertyChanged(nameof(AllUsers));
+            }
         }
 
         private List<UserModel> _usersFromExcel;
@@ -98,43 +105,75 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+        private string _excelDialogFilterPattern = "Excel Files(.xls)|*.xls| Excel Files(.xlsx)|*.xlsx| Excel Files(.xlsm)|*.xlsm";
+
         #endregion
 
         #region METHODS
 
-        private void OpenUpdateUser(object userId)
+        private void OpenUpdateUser(object userIdObj)
         {
-            TypeActionWithUser = ClientAction.Update;
+            if (userIdObj != null)
+            {
+                TypeActionWithUser = ClientAction.Update;
+                SelectedUser = _usersRequestService.GetUserById(_token, (int)userIdObj);
+
+                var wnd = new CreateOrUpdateUserWindow();
+                _viewService.OpenWindow(wnd, this);
+            }
         }
 
         private void OpenNewUser()
         {
             TypeActionWithUser = ClientAction.Create;
+            SelectedUser = new UserModel();
         }
 
-        private void DeleteUser(object userId)
+        private void DeleteUser(object userIdObj)
         {
-
+            if (userIdObj != null)
+            {
+                int userId = (int)userIdObj;
+                _usersRequestService.DeleteUser(_token, userId);
+            }
         }
 
         private void CreateOrUpdateUser()
         {
-
+            if (TypeActionWithUser == ClientAction.Create)
+            {
+                _usersRequestService.CreateUser(_token, SelectedUser);
+            }
+            if (TypeActionWithUser == ClientAction.Update)
+            {
+                _usersRequestService.CreateUser(_token, SelectedUser);
+            }
+            UpdatePage();
         }
 
         private void OpenSelectUsersFromExcel()
         {
-
+            var wnd = new UsersFromExcelWindow();
+            _viewService.OpenWindow(wnd, this);
         }
 
         private void GetUsersFromExcel()
         {
-
+            string path = _viewService.GetFileFromDialog(_excelDialogFilterPattern);
+            UsersFromExcel = _excelService.GetAllUsersFromExcel(path);
         }
 
         private void AddUsersFromExcel()
         {
 
+        }
+
+        private void UpdatePage()
+        {
+            _viewService.CurrentOpenedWindow?.Close();
+            SelectedUser = null;
+            SelectedUsersFromExcel = new List<UserModel>();
+            AllUsers = _usersRequestService.GetAllUsers(_token);
         }
 
         #endregion

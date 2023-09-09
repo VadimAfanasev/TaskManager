@@ -23,7 +23,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Button Content="Select EXCEL file" Command="{Binding GetUsersFromExcelCommand}" 
+        <Button Content="Select Excel file" Command="{Binding GetUsersFromExcelCommand}" 
                 Style="{StaticResource commonBtn}"/>
         <ListView Grid.Row="1" ItemsSource="{Binding UsersFromExcel}" 
                   SelectionChanged="ListView_SelectionChanged">
