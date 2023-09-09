@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 E:\Программирование\Обучение\TaskManager\TaskManager.Client\App.xaml
-141257511140
+171737480662
 
-36307125641
-201-541899306
-Resources\Styles\MainStyle.xaml;Views\AddWindows\AddUsersToProjectWindow.xaml;Views\AddWindows\CreateOrUpdateDeskWindow.xaml;Views\AddWindows\CreateOrUpdateProjectWindow.xaml;Views\AddWindows\CreateOrUpdateTaskWindow.xaml;Views\Components\TaskControl.xaml;Views\Login.xaml;Views\MainWindow.xaml;Views\Pages\DeskTasksPage.xaml;Views\Pages\ProjectDesksPage.xaml;Views\Pages\ProjectsPage.xaml;Views\Pages\UserDesksPage.xaml;Views\Pages\UserInfoPage.xaml;Views\Pages\UserTasksPage.xaml;
+41-778921307
+214-1576170605
+Resources\Styles\MainStyle.xaml;Views\AddWindows\AddUsersToProjectWindow.xaml;Views\AddWindows\CreateOrUpdateDeskWindow.xaml;Views\AddWindows\CreateOrUpdateProjectWindow.xaml;Views\AddWindows\CreateOrUpdateTaskWindow.xaml;Views\AddWindows\CreateOrUpdateUserWindow.xaml;Views\AddWindows\UsersFromExcelWindow.xaml;Views\Components\TaskControl.xaml;Views\Login.xaml;Views\MainWindow.xaml;Views\Pages\DeskTasksPage.xaml;Views\Pages\ProjectDesksPage.xaml;Views\Pages\ProjectsPage.xaml;Views\Pages\UserDesksPage.xaml;Views\Pages\UserInfoPage.xaml;Views\Pages\UsersPage.xaml;Views\Pages\UserTasksPage.xaml;
 
 False
 

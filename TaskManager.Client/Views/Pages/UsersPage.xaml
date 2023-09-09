@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Create" Command="{Binding OpenNewUserWindowCommand}" 
+            <Button Grid.Column="0" Content="Create" Command="{Binding OpenNewUserCommand}" 
                     Style="{StaticResource commonBtn}"/>
             <Button Grid.Column="1" Content="Create from Excel" Command="{Binding OpenSelectUsersFromExcelCommand}" 
                     Style="{StaticResource commonBtn}"/>

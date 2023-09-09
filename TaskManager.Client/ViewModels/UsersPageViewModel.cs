@@ -1,11 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskManager.Client.Models;
 using TaskManager.Client.Services;
 using TaskManager.Client.Views.AddWindows;
@@ -46,6 +41,7 @@ namespace TaskManager.Client.ViewModels
             OpenSelectUsersFromExcelCommand = new DelegateCommand(OpenSelectUsersFromExcel);
             GetUsersFromExcelCommand = new DelegateCommand(GetUsersFromExcel);
             AddUsersFromExcelCommand = new DelegateCommand(AddUsersFromExcel);
+            AllUsers = _usersRequestService.GetAllUsers(_token);
         }
 
         #region PROPERTIES
@@ -72,7 +68,7 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
-        private List<UserModel> _selectedUsersFromExcel;
+        private List<UserModel> _selectedUsersFromExcel = new List<UserModel>();
         public List<UserModel> SelectedUsersFromExcel
         {
             get => _selectedUsersFromExcel; 
@@ -111,12 +107,13 @@ namespace TaskManager.Client.ViewModels
 
         #region METHODS
 
-        private void OpenUpdateUser(object userIdObj)
+        private void OpenUpdateUser(object userObj)
         {
-            if (userIdObj != null)
+            if (userObj != null)
             {
                 TypeActionWithUser = ClientAction.Update;
-                SelectedUser = _usersRequestService.GetUserById(_token, (int)userIdObj);
+                int userId = ((UserModel)userObj).Id;
+                SelectedUser = _usersRequestService.GetUserById(_token, userId);
 
                 var wnd = new CreateOrUpdateUserWindow();
                 _viewService.OpenWindow(wnd, this);
@@ -127,14 +124,17 @@ namespace TaskManager.Client.ViewModels
         {
             TypeActionWithUser = ClientAction.Create;
             SelectedUser = new UserModel();
+            var wnd = new CreateOrUpdateUserWindow();
+            _viewService.OpenWindow(wnd, this);
         }
 
         private void DeleteUser(object userIdObj)
         {
             if (userIdObj != null)
             {
-                int userId = (int)userIdObj;
+                int userId = ((UserModel)userIdObj).Id;
                 _usersRequestService.DeleteUser(_token, userId);
+                UpdatePage();
             }
         }
 
@@ -160,12 +160,18 @@ namespace TaskManager.Client.ViewModels
         private void GetUsersFromExcel()
         {
             string path = _viewService.GetFileFromDialog(_excelDialogFilterPattern);
-            UsersFromExcel = _excelService.GetAllUsersFromExcel(path);
+            if (string.IsNullOrEmpty(path) == false)
+                UsersFromExcel = _excelService.GetAllUsersFromExcel(path);
         }
 
         private void AddUsersFromExcel()
         {
-
+            if (SelectedUsersFromExcel != null && SelectedUsersFromExcel.Count > 0)
+            {
+                var result = _usersRequestService.CreateMultipleUsers(_token, SelectedUsersFromExcel);
+                _viewService.ShowActionResult(result, "All users are created");
+                UpdatePage();
+            }
         }
 
         private void UpdatePage()

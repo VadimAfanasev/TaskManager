@@ -8,7 +8,8 @@
         xmlns:commonModels="clr-namespace:TaskManager.Common.Models;assembly=TaskManager.Common.Models"
         mc:Ignorable="d"
         Title="CreateOrUpdateUserWindow" 
-        Height="300" Width="350">
+        Height="300" Width="350"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
                             ObjectType="{x:Type system:Enum}">
@@ -43,14 +44,14 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Name: "
                            Style="{StaticResource commonTBlock}"
                            HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedUser.Firstname}"
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedUser.FirstName}"
                            Style="{StaticResource commonTBox}"
                            HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="LastName: "
                            Style="{StaticResource commonTBlock}"
                            HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedUser.Surname}"
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedUser.LastName}"
                            Style="{StaticResource commonTBox}"
                            HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
