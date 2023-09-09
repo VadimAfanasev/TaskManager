@@ -17,6 +17,7 @@ namespace TaskManager.Client.ViewModels
         private AuthToken _token;
         private UsersRequestService _usersRequestService;
         private CommonViewService _viewService;
+        private ExcelService _excelService;
 
         #region COMMANDS
 
@@ -35,6 +36,7 @@ namespace TaskManager.Client.ViewModels
             _token = token;
             _usersRequestService = new UsersRequestService();
             _viewService = new CommonViewService();
+            _excelService = new ExcelService();
 
             OpenUpdateUserCommand = new DelegateCommand<object>(OpenUpdateUser);
             OpenNewUserCommand = new DelegateCommand(OpenNewUser);
@@ -52,8 +54,18 @@ namespace TaskManager.Client.ViewModels
             get => _usersRequestService.GetAllUsers(_token);
         }
 
-        private List<UserModel> _selectedUsersFromExcel;
+        private List<UserModel> _usersFromExcel;
+        public List<UserModel> UsersFromExcel
+        {
+            get => _usersFromExcel;
+            set
+            {
+                _usersFromExcel = value;
+                RaisePropertyChanged(nameof(UsersFromExcel));
+            }
+        }
 
+        private List<UserModel> _selectedUsersFromExcel;
         public List<UserModel> SelectedUsersFromExcel
         {
             get => _selectedUsersFromExcel; 
@@ -65,17 +77,26 @@ namespace TaskManager.Client.ViewModels
         }
 
         private UserModel _selectedUser;
-
         public UserModel SelectedUser
         {
             get => _selectedUser;
             set 
             { 
                 _selectedUser = value; 
+                RaisePropertyChanged(nameof(SelectedUser));
             }
         }
 
-
+        private ClientAction _typeActionWithUser;
+        public ClientAction TypeActionWithUser
+        {
+            get => _typeActionWithUser;
+            set
+            {
+                _typeActionWithUser = value;
+                RaisePropertyChanged(nameof(TypeActionWithUser));
+            }
+        }
 
         #endregion
 
@@ -83,12 +104,12 @@ namespace TaskManager.Client.ViewModels
 
         private void OpenUpdateUser(object userId)
         {
-
+            TypeActionWithUser = ClientAction.Update;
         }
 
         private void OpenNewUser()
         {
-
+            TypeActionWithUser = ClientAction.Create;
         }
 
         private void DeleteUser(object userId)

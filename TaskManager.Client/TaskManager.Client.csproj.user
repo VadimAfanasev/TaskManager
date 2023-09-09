@@ -19,6 +19,9 @@
     <Compile Update="Views\AddWindows\CreateOrUpdateTaskWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddWindows\CreateOrUpdateUserWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\AddWindows\UsersFromExcelWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -61,6 +64,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddWindows\CreateOrUpdateTaskWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\AddWindows\CreateOrUpdateUserWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\AddWindows\UsersFromExcelWindow.xaml">
