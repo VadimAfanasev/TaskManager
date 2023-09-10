@@ -133,6 +133,12 @@ namespace TaskManager.Api.Models.Services
             return user?.ToDto();
         }
 
+        public ProjectAdmin GetProjectAdmin(int userId)
+        {
+            ProjectAdmin admin = _db.ProjectAdmins.FirstOrDefault(x => x.UserId == userId);
+            return admin;
+        }
+
         public IEnumerable<UserModel> GetAllByIds(List<int> usersIds) 
         {
             foreach (int id in usersIds)

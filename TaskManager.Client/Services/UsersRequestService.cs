@@ -67,22 +67,18 @@ namespace TaskManager.Client.Services
             return result;
         }
 
-        //private async Task<string> GetDataByUrl(string url, string userName, string password)
-        //{
-        //    var client = new HttpClient();
-        //    var authToken = Encoding.UTF8.GetBytes(userName + ":" + password);
-        //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(authToken));
-        //    var response = await client.PostAsync(url, new StringContent(authToken.ToString()));
-        //    var content = await response.Content.ReadAsStringAsync();
-        //    return content;
-        //}
+        public int? GetProjectUserAdmin(AuthToken token, int userId)
+        {
+            var result = GetDataByUrl(HttpMethod.Get, _usersControllerUrl + $"/{userId}/admin", token);
 
-        //public AuthToken GetToken(string userName, string password)
-        //{
-        //    string url = HOST + "account/token";
-        //    var resultStr = GetDataByUrl(url, userName, password);
-        //    AuthToken token = JsonConvert.DeserializeObject<AuthToken>(resultStr.Result);
-        //    return token;
-        //}
+            int adminId;
+
+            bool parseResult = int.TryParse(result, out adminId);
+
+            if (parseResult)
+                return adminId;
+            else 
+                return null;
+        }
     }
 }

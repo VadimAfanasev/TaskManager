@@ -59,11 +59,15 @@ namespace TaskManager.Client.Services
             }
 
             byte[] data = Array.Empty<byte>();
+            try
+            {
+                if (method == HttpMethod.Post)
+                    data = client.UploadValues(url, method.Method, client.QueryString);
 
-            if (method == HttpMethod.Post)
-                data = client.UploadValues(url, method.Method, client.QueryString);
-            if (method == HttpMethod.Get)
-                data = client.DownloadData(url);
+                if (method == HttpMethod.Get)
+                    data = client.DownloadData(url);
+            }
+            catch { }
 
             string result = UnicodeEncoding.UTF8.GetString(data);
             return result;
