@@ -80,5 +80,16 @@ namespace TaskManager.Client.Services
             else 
                 return null;
         }
+
+        public int GetWorkTimeMinutes(AuthToken token) 
+        {
+            var result = GetDataByUrl(HttpMethod.Get, HOST + "account/workTime", token);
+            int timeMinutes = 0;
+            if (string.IsNullOrEmpty(result) == false)
+            {
+                bool parseResult = int.TryParse(result, out timeMinutes);
+            }
+            return timeMinutes;
+        }
     }
 }

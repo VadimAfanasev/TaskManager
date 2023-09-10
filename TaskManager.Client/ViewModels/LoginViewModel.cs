@@ -149,12 +149,18 @@ namespace TaskManager.Client.ViewModels
         }
 
         private void OpenMainWindow() 
-        { 
-            MainWindow window = new MainWindow();
-            window.DataContext = new MainWindowViewModel(AuthToken, CurrentUser, window);
-            window.Show();
-            _currentWindow.Close();
+        {
+            int workTime = _usersRequestService.GetWorkTimeMinutes(AuthToken);
+            if (workTime > 0)
+            {
+                MainWindow window = new MainWindow();
+                window.DataContext = new MainWindowViewModel(AuthToken, CurrentUser, window, workTime);
+                window.Show();
+
+                _currentWindow.Close();
+            }
         }
+
         #endregion
     }
 }

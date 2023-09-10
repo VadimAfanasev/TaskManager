@@ -1,6 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Client.Models;
@@ -14,6 +16,8 @@ namespace TaskManager.Client.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private CommonViewService _viewService;
+        private int _workTimeMinutes;
+
         #region COMMANDS
 
         public DelegateCommand OpenMyInfoPageCommand { get; private set; }
@@ -26,12 +30,13 @@ namespace TaskManager.Client.ViewModels
 
         #endregion
 
-        public MainWindowViewModel(AuthToken token, UserModel currentUser, Window currentWindow = null) 
+        public MainWindowViewModel(AuthToken token, UserModel currentUser, Window currentWindow, int workTimeMinutes) 
         {
             Token = token;
             CurrentUser = currentUser;
             _currentWindow = currentWindow;
             _viewService = new CommonViewService();
+            _workTimeMinutes = workTimeMinutes;
 
             OpenMyInfoPageCommand = new DelegateCommand(OpenMyInfoPage);
             NavButtons.Add(_userInfoBtnName, OpenMyInfoPageCommand);
@@ -53,6 +58,8 @@ namespace TaskManager.Client.ViewModels
 
             LogoutCommand = new DelegateCommand(Logout);
             NavButtons.Add(_logoutBtnName, LogoutCommand);
+
+            StartWork(workTimeMinutes);
 
             OpenMyInfoPage();
         }
@@ -163,6 +170,13 @@ namespace TaskManager.Client.ViewModels
             }
         }
 
+        private void StopWork()
+        {
+            Login login = new Login();
+            login.Show();
+            _currentWindow.Close();
+        }
+
         private void OpenUsersManagement()
         {
             SelectedPageName = _manageUsersBtnName;
@@ -177,6 +191,15 @@ namespace TaskManager.Client.ViewModels
             SelectedPageName = pageName;
             SelectedPage = page;
             SelectedPage.DataContext = viewModel;
+        }
+
+        private async void StartWork(int minutes)
+        {
+            await Task.Run(() =>
+            {
+                Thread.Sleep(minutes * 1000);
+            });
+            StopWork();
         }
     }
 }
