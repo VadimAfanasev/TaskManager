@@ -1,12 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TaskManager.Client.Models;
@@ -133,7 +129,6 @@ namespace TaskManager.Client.ViewModels
 
             return null;
         }
-
         private void LoginFromCache(object wnd)
         {
             _currentWindow = wnd as Window;
